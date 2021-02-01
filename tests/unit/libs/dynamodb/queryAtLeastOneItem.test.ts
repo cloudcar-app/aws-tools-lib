@@ -2,7 +2,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { queryAtLeastOneItem } from '../../../../lib/dynamodb/queryItems';
 import { expect, sinon } from '../../../libs.tests/chai.commons';
-import { QueryAtLeastOneItemParamsFactory } from '../../../factories/dynamodb.factory';
+import { QueryParamsFactory } from '../../../factories/dynamodb.factory';
 import ErrorTypes from '../../../../lib/errors/errorTypes';
 import MessageError from '../../../../lib/message.errors';
 
@@ -18,7 +18,7 @@ describe('AWS-WRAPPER: queryAtLeastOneItem', () => {
   });
 
   it('[SUCCESS]', async () => {
-    const queryDynamoParams = QueryAtLeastOneItemParamsFactory();
+    const queryDynamoParams = QueryParamsFactory();
     const expectedItem = [{ value: 'some-value' }];
     dynamoDBQueryStub.returns({
       promise: () => {
@@ -32,7 +32,7 @@ describe('AWS-WRAPPER: queryAtLeastOneItem', () => {
 
   it('[ERROR] should throw fatal error when tablename is undefined', async () => {
     try {
-      const queryDynamoParams = QueryAtLeastOneItemParamsFactory({
+      const queryDynamoParams = QueryParamsFactory({
         TableName: undefined,
       });
       await queryAtLeastOneItem(queryDynamoParams);
@@ -45,9 +45,10 @@ describe('AWS-WRAPPER: queryAtLeastOneItem', () => {
       expect(error.type).to.equal(ErrorTypes.FATAL);
     }
   });
+
   it('[ERROR] should throw fatal error when result is undefined', async () => {
     try {
-      const queryDynamoParams = QueryAtLeastOneItemParamsFactory();
+      const queryDynamoParams = QueryParamsFactory();
       dynamoDBQueryStub.returns({
         promise: () => {
           return { Items: undefined };
@@ -65,7 +66,7 @@ describe('AWS-WRAPPER: queryAtLeastOneItem', () => {
   });
   it('[ERROR] should throw fatal error when result is empty', async () => {
     try {
-      const queryDynamoParams = QueryAtLeastOneItemParamsFactory();
+      const queryDynamoParams = QueryParamsFactory();
       dynamoDBQueryStub.returns({
         promise: () => {
           return { Items: [] };

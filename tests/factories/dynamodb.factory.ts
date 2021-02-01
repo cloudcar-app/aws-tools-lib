@@ -25,7 +25,7 @@ export const UpdateDynamoParamsFactory = define<UpdateDynamoParams>({
   },
 });
 
-export const QueryAtLeastOneItemParamsFactory = define<QueryDynamoParams>({
+export const QueryParamsFactory = define<QueryDynamoParams>({
   TableName: 'some-tableName',
   ConditionExpression: 'some-expression',
 });

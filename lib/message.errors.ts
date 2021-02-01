@@ -13,6 +13,13 @@ const MessageError = {
       item: 'undefined item to create',
     },
   },
+  getItem: {
+    name: 'DATABASE_SERVICE_GET_ERROR',
+    messages: {
+      tableName: 'undefined table name',
+      undefinedResult: 'could not get the resource requested',
+    },
+  },
   authentication: {
     name: 'COGNITO_SERVICE_AUTHENTICATION_ERROR',
     messages: {

@@ -10,12 +10,14 @@ const documentClient = process.env.LOCAL
     })
   : new DynamoDB.DocumentClient();
 
-export const getItem = async (params: QueryDynamoParams): Promise<Object> => {
+export const getItem = async (
+  params: QueryDynamoParams,
+): Promise<Object | null> => {
   const { TableName } = params;
   if (TableName === undefined) {
     throw new CloudcarError({
-      message: MessageError.queryAtLeastOneItem.messages.tableName,
-      name: MessageError.queryAtLeastOneItem.name,
+      message: MessageError.getItem.messages.tableName,
+      name: MessageError.getItem.name,
     });
   }
   // eslint-disable-next-line no-param-reassign
@@ -28,14 +30,14 @@ export const getItem = async (params: QueryDynamoParams): Promise<Object> => {
     .query(params as DynamoDB.QueryInput)
     .promise();
 
-  if (result.Items === undefined || result.Items.length === 0) {
-    if (result.Items === undefined) {
-      throw new CloudcarError({
-        message: MessageError.queryAtLeastOneItem.messages.notFoundItem,
-        name: MessageError.queryAtLeastOneItem.name,
-      });
-    }
-    return {};
+  if (result.Items === undefined) {
+    throw new CloudcarError({
+      message: MessageError.getItem.messages.undefinedResult,
+      name: MessageError.getItem.name,
+    });
+  } else if (result.Items.length === 0) {
+    return null;
   }
+
   return result.Items[0];
 };

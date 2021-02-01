@@ -1,6 +1,6 @@
 {
   "name": "@cloudcar-app/aws-tools-lib",
-  "version": "1.0.0",
+  "version": "1.0.01",
   "description": "This is a library to help on the development for cloud car",
   "main": "./lib/index.js",
   "module": "./dist/index.js",

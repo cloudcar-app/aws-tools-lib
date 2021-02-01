@@ -30,8 +30,8 @@ export const uploadItem = async (params: UploadS3Params): Promise<Object> => {
 
   if (result.ETag === undefined || result.Location === undefined) {
     throw new CloudcarError({
-      message: MessageError.queryAtLeastOneItem.messages.notFoundItem,
-      name: MessageError.queryAtLeastOneItem.name,
+      message: MessageError.uploadItem.messages.notFoundItem,
+      name: MessageError.uploadItem.name,
     });
   }
   return result;

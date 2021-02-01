@@ -4,9 +4,11 @@ import { CreateCognitoUser } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from '../message.errors';
 
-const cognitoClient = new CognitoIdentityServiceProvider({
-  region: process.env.AWS_COGNITO_REGION,
-});
+const cognitoClient = process.env.AWS_COGNITO_REGION
+  ? new CognitoIdentityServiceProvider({
+      region: process.env.AWS_COGNITO_REGION,
+    })
+  : new CognitoIdentityServiceProvider();
 
 const uuidGenerator = hyperId.default;
 

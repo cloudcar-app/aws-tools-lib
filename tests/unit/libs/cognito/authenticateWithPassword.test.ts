@@ -1,55 +1,36 @@
 // /* eslint-disable @typescript-eslint/no-unused-expressions */
-// // import { CognitoIdentityServiceProvider } from 'aws-sdk';
-// import AWS from 'aws-sdk';
-// import { createUser } from '../../../../lib/cognito/createUser';
+// import { CognitoIdentityServiceProvider } from 'aws-sdk';
+
+// import { authenticateWithPassword } from '../../../../lib/cognito/authenticateWithPassword';
 // import { expect, sinon } from '../../../libs.tests/chai.commons';
-// import { CreateCognitoUserParamsFactory } from '../../../factories/cognito.factory';
+// import { AuthWithPasswordParamsFactory } from '../../../factories/cognito.factory';
 // // import ErrorTypes from '../../../../lib/errors/errorTypes';
 // // import MessageError from '../../../../lib/message.errors';
 
 // describe('AWS-WRAPPER: createUser', () => {
-//   const sandbox = sinon.createSandbox();
-//   sandbox.stub(AWS.prototype, 'SES').returns({
-//     sendEmail: () => {
-//       return true;
-//     },
-//   });
-
-//   const awsStub = sandbox.stub(aws, 'CognitoIdentityServiceProvider').returns({
-//     signUp() {
-//       return {
-//         promise() {
-//           return {
-//             Items: [],
-//           };
-//         },
-//       };
-//     },
-//   });
-//   // let CognitoSignUpStub: sinon.SinonStub<any, any>;
+//   let CognitoSignUpStub: sinon.SinonStub<any, any>;
 
 //   beforeEach(() => {
-//     // CognitoSignUpStub = sinon.stub(
-//     //   CognitoIdentityServiceProvider.prototype,
-//     //   'signUp',
-//     // );
+//     CognitoSignUpStub = sinon.stub(
+//       CognitoIdentityServiceProvider.prototype,
+//       'adminInitiateAuth',
+//     );
 //   });
 
 //   afterEach(() => {
-//     // CognitoSignUpStub.restore();
+//     CognitoSignUpStub.restore();
 //   });
 
 //   it.only('[SUCCESS] should return the created Item', async () => {
-//     const createCognitoParams = CreateCognitoUserParamsFactory();
-//     const { User } = createCognitoParams;
-//     // CognitoSignUpStub.returns({
-//     //   promise: () => {
-//     //     return { User };
-//     //   },
-//     // });
-//     const values = await createUser(createCognitoParams);
-//     expect(awsStub).to.have.been.calledOnce;
-//     expect(values).to.deep.equal(User);
+//     const authParams = AuthWithPasswordParamsFactory();
+//     CognitoSignUpStub.returns({
+//       promise: () => {
+//         return { authParams };
+//       },
+//     });
+//     await authenticateWithPassword(authParams);
+//     expect(CognitoSignUpStub).to.have.been.calledOnce;
+//     // expect(values).to.deep.equal(User);
 //   });
 
 //   // it('[ERROR] should return fatal error when tablename is undefined', async () => {

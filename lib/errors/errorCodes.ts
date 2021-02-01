@@ -1,0 +1,8 @@
+enum ErrorCodes {
+  SERVICE = 'SERVICE',
+  DATABASE = 'DATABASE',
+  INPUT_VALIDATION = 'INPUT_VALIDATION',
+  AUTHENTICATION = 'AUTHENTICATION',
+}
+
+export default ErrorCodes;

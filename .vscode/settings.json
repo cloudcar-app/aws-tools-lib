@@ -1,0 +1,12 @@
+{
+    "[typescript]": {
+        "editor.formatOnSave": true,
+      },
+    "editor.autoIndent": "full",
+    "editor.tabSize": 2,
+    "editor.rulers": [120],
+    "editor.insertSpaces": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    },
+  }

@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "removeComments": true,
+        "watch": true,
+        "module": "commonjs",
+        "outDir": "./dist",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "alwaysStrict": true,
+        "noImplicitAny": false,
+        "allowSyntheticDefaultImports": true,
+        "strictNullChecks": true,
+        "lib": [
+            "es2017",
+            "esnext.asynciterable"
+        ],
+        "sourceMap": true,
+        "baseUrl": "."
+    },
+    "include": [
+        "./lib/**/*.ts",
+        "./tests/**/*.ts"
+    ],
+    "exclude": [
+        "./node_modules",
+    ]
+}

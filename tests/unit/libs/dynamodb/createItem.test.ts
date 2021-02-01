@@ -2,7 +2,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { createItem } from '../../../../lib/dynamodb/createItem';
 import { expect, sinon } from '../../../libs.tests/chai.commons';
-import { PutDynamoParamsFactory } from '../../../factories/aws.factory';
+import { PutDynamoParamsFactory } from '../../../factories/dynamodb.factory';
 import ErrorTypes from '../../../../lib/errors/errorTypes';
 import MessageError from '../../../../lib/message.errors';
 

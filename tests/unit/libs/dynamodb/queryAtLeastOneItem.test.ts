@@ -2,7 +2,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { queryAtLeastOneItem } from '../../../../lib/dynamodb/queryItems';
 import { expect, sinon } from '../../../libs.tests/chai.commons';
-import { QueryAtLeastOneItemParamsFactory } from '../../../factories/aws.factory';
+import { QueryAtLeastOneItemParamsFactory } from '../../../factories/dynamodb.factory';
 import ErrorTypes from '../../../../lib/errors/errorTypes';
 import MessageError from '../../../../lib/message.errors';
 

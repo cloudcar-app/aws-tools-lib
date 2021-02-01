@@ -2,7 +2,7 @@
 import { S3 } from 'aws-sdk';
 import { uploadItem } from '../../../../lib/s3/uploadItem';
 import { expect, sinon } from '../../../libs.tests/chai.commons';
-import { UploadFileParamsFactory } from '../../../factories/aws.factory';
+import { UploadFileParamsFactory } from '../../../factories/s3.factory';
 import ErrorTypes from '../../../../lib/errors/errorTypes';
 import MessageError from '../../../../lib/message.errors';
 

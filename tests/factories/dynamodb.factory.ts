@@ -7,7 +7,6 @@ import {
   QueryDynamoParams,
   PutDynamoParams,
 } from '../../lib/dynamodb/types';
-import { UploadS3Params } from '../../lib/s3/types';
 
 export const ScanDynamoParamsFactory = define<ScanDynamoParams>({
   TableName: 'TableName',
@@ -41,16 +40,3 @@ export const PutDynamoParamsFactory = define<PutDynamoParams>({
   },
   ConditionExpression: 'some-condition-expression',
 });
-
-export const UploadFileParamsFactory = define<UploadS3Params>({
-  Bucket: 'some-bucket-name',
-  Key: 'filename',
-  Type: 'pdf',
-  Body: 'some-file',
-  ACL: 'public-read',
-});
-
-export interface CognitoParams {
-  CognitoClientId: string;
-  concessionaire: Object;
-}

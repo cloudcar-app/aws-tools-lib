@@ -58,13 +58,12 @@ const MessageError = {
       tableName: 'undefined table name',
     },
   },
-  createCognitoConcessionaire: {
-    name: 'COGNITO_SERVICE_CONCESSIONAIRE_ERROR',
+  createUser: {
+    name: 'COGNITO_SERVICE_CREATE_USER_ERROR',
     messages: {
-      concessionaire: 'undefined concessionaire',
+      user: 'undefined user',
       clientId: 'undefined client Id',
-      concessionaireConfirmed:
-        '"undefined the concessionaire wasn\'t create on dynamoDB"',
+      userConfirmed: '"The user wasn\'t confirmed"',
     },
   },
 };

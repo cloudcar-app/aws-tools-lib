@@ -1,5 +1,5 @@
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
-import * as hyperId from 'hyperid';
+import { v1 as uuidV1 } from 'uuid';
 import { CreateCognitoUser } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from '../message.errors';
@@ -9,8 +9,6 @@ const cognitoClient = process.env.AWS_COGNITO_REGION
       region: process.env.AWS_COGNITO_REGION,
     })
   : new CognitoIdentityServiceProvider();
-
-const uuidGenerator = hyperId.default;
 
 export const createUser = async (params: CreateCognitoUser) => {
   const { User: user, CognitoClientId, Metadata: metadata } = params;
@@ -46,7 +44,7 @@ export const createUser = async (params: CreateCognitoUser) => {
   });
 
   const data: CognitoIdentityServiceProvider.Types.SignUpRequest = {
-    Password: uuidGenerator().uuid as string,
+    Password: uuidV1() as string,
     Username: user.name,
     UserAttributes: userAttributes,
     ClientId: CognitoClientId,

@@ -1,6 +1,6 @@
 import { define } from 'cooky-cutter';
 
-import { UploadS3Params, ACL } from '../../lib/s3/types';
+import { UploadS3Params, ACL, DownloadS3Params } from '../../lib/s3/types';
 
 export const UploadFileParamsFactory = define<UploadS3Params>({
   Bucket: 'some-bucket-name',
@@ -8,4 +8,9 @@ export const UploadFileParamsFactory = define<UploadS3Params>({
   Type: 'pdf',
   Body: 'some-file',
   ACL: ACL.Public_read,
+});
+
+export const DownloadS3ParamsFactory = define<DownloadS3Params>({
+  Bucket: 'some-bucket-name',
+  Key: 'some-key',
 });

@@ -4,12 +4,11 @@ import { CreateCognitoUser } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from '../message.errors';
 
-const cognitoClient = process.env.AWS_COGNITO_REGION
-  ? new CognitoIdentityServiceProvider({
-      region: process.env.AWS_COGNITO_REGION,
-    })
-  : new CognitoIdentityServiceProvider();
-
+const cognitoClient = process.env.LOCAL
+  ? new CognitoIdentityServiceProvider()
+  : new CognitoIdentityServiceProvider({
+      region: process.env.REGION,
+    });
 export const createUser = async (params: CreateCognitoUser) => {
   const { User: user, CognitoClientId, Metadata: metadata } = params;
   if (user === undefined) {

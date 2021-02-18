@@ -3,12 +3,11 @@ import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from '../message.errors';
 
-const cognitoClient = process.env.AWS_COGNITO_REGION
-  ? new CognitoIdentityServiceProvider({
-      region: process.env.AWS_COGNITO_REGION,
-    })
-  : new CognitoIdentityServiceProvider();
-
+const cognitoClient = process.env.LOCAL
+  ? new CognitoIdentityServiceProvider()
+  : new CognitoIdentityServiceProvider({
+      region: process.env.REGION,
+    });
 // eslint-disable-next-line import/prefer-default-export
 export const authenticateWithPassword = async (authParams: AuthParams) => {
   const {

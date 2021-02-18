@@ -1,3 +1,10 @@
 lib
 tsconfig.json
 src
+.vscode
+tests
+.eslintrc
+.eslintignore
+.prettierrc
+.prettierignore
+tsconfig.publish.json

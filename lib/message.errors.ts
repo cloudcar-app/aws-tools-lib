@@ -73,6 +73,17 @@ const MessageError = {
       userConfirmed: '"The user wasn\'t confirmed"',
     },
   },
+  createPurchaseIntent: {
+    name: 'COGNITO_SERVICE_PURCHASE_INTENT_ERROR',
+    messages: {
+      apiKey: 'undefined apiKey',
+      name: 'undefined name',
+      ip: 'undefined ip',
+      clientId: 'undefined client Id',
+      session: 'there is un error creating the session',
+      authResult: 'there is un error responding challenge',
+    },
+  },
 };
 
 export default MessageError;

@@ -5,12 +5,11 @@ import MessageError from '../message.errors';
 import { ScanDynamoParams } from './types';
 import generateScanExpression from './utils/generate-scan-expression';
 
-const documentClient = process.env.LOCAL
-  ? new DynamoDB.DocumentClient({
-      region: 'localhost',
-      endpoint: 'http://localhost:8000',
-    })
-  : new DynamoDB.DocumentClient();
+const dynamo = process.env.LOCAL
+  ? new DynamoDB({ region: 'localhost', endpoint: 'http://localhost:8000' })
+  : new DynamoDB({ region: process.env.REGION || 'us-east-1' });
+
+const documentClient = new DynamoDB.DocumentClient({ service: dynamo });
 
 export const listItems = async (
   params: ScanDynamoParams,

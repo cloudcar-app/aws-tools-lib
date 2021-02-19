@@ -11,15 +11,11 @@ export interface CreateCognitoUser {
 
 export interface AuthParams {
   username: string;
-  flow?: AUTHFLOW;
+  flow?: 'CUSTOM_AUTH' | 'ADMIN_USER_PASSWORD_AUTH';
   password?: string;
   CognitoClientId?: string;
   CognitoUserPoolId?: string;
-}
-
-enum AUTHFLOW {
-  Admin_password_auth = 'ADMIN_USER_PASSWORD_AUTH',
-  Custom_auth = 'CUSTOM_AUTH',
+  Answer?: string;
 }
 
 interface User {
@@ -31,4 +27,11 @@ interface User {
 interface CustomAttribute {
   name: string;
   value: string;
+}
+
+export interface PurchaseIntentParams {
+  Ip: string;
+  Name: string;
+  APIKEY: string;
+  CognitoClientId: string;
 }

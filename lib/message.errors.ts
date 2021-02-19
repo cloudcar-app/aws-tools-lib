@@ -59,6 +59,14 @@ const MessageError = {
       key: 'undefined table key',
     },
   },
+  downloadItem: {
+    name: 'STORAGE_SERVICE_DOWNLOAD_ERROR',
+    messages: {
+      bucketName: 'undefined bucket name',
+      key: 'undefined body',
+      notFoundItem: 'given params did not found items',
+    },
+  },
   listItems: {
     name: 'DATABASE_SERVICE_LIST_ERROR',
     messages: {

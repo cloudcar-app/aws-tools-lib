@@ -6,6 +6,11 @@ export interface UploadS3Params {
   ACL?: ACL;
 }
 
+export interface DownloadS3Params {
+  Bucket?: string;
+  Key?: string;
+}
+
 export enum ACL {
   Private = 'private',
   Public_read = 'public_read',

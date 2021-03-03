@@ -10,12 +10,13 @@ export interface CreateCognitoUser {
 }
 
 export interface AuthParams {
-  username: string;
-  flow?: 'CUSTOM_AUTH' | 'ADMIN_USER_PASSWORD_AUTH';
+  username?: string;
+  flow?: 'CUSTOM_AUTH' | 'ADMIN_USER_PASSWORD_AUTH | REFRESH_TOKEN_AUTH';
   password?: string;
   CognitoClientId?: string;
   CognitoUserPoolId?: string;
   Answer?: string;
+  refreshToken?: string;
 }
 
 interface User {

@@ -3,12 +3,7 @@ import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
 import MessageError from '../message.errors';
 import { PutDynamoParams } from './types';
-
-const dynamo = process.env.LOCAL
-  ? new DynamoDB({ region: 'localhost', endpoint: 'http://localhost:8000' })
-  : new DynamoDB({ region: process.env.REGION || 'us-east-1' });
-
-const documentClient = new DynamoDB.DocumentClient({ service: dynamo });
+import { documentClient } from './utils/dynamoClient';
 
 export const createItem = async (params: PutDynamoParams): Promise<Object> => {
   const { TableName } = params;

@@ -1,7 +1,4 @@
-import { DynamoDB } from 'aws-sdk';
-
-const dynamo = new DynamoDB({ region: 'us-east-1' });
-const documentClient = new DynamoDB.DocumentClient({ service: dynamo });
+import { documentClient } from './dynamoClient';
 // eslint-disable-next-line import/prefer-default-export
 export const emptyTable = async (
   tableName: string,

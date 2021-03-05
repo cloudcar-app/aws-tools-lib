@@ -92,6 +92,16 @@ const MessageError = {
       authResult: 'there is un error responding challenge',
     },
   },
+  refreshTokens: {
+    name: 'COGNITO_SERVICE_REFRESH_TOKENS_ERROR',
+    messages: {
+      refreshToken: 'refresh token is undefined',
+      flow: 'auth flow is undefined',
+      clientId: 'cognito client id is undefined',
+      poolId: 'cognito client id is undefined',
+      authResult: 'there was an error refreshing the tokens',
+    },
+  },
 };
 
 export default MessageError;

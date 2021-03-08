@@ -20,6 +20,12 @@ const MessageError = {
       undefinedResult: 'could not get the resource requested',
     },
   },
+  listUsers: {
+    name: 'COGNITO_SERVICE_LIST_USERS_ERROR',
+    messages: {
+      userPoolId: 'undefined user pool id',
+    },
+  },
   authentication: {
     name: 'COGNITO_SERVICE_AUTHENTICATION_ERROR',
     messages: {

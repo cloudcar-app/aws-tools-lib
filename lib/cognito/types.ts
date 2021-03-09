@@ -36,3 +36,11 @@ export interface PurchaseIntentParams {
   APIKEY: string;
   CognitoClientId: string;
 }
+
+export interface ListUsersParams {
+  AttributesToGet?: string[];
+  Filter?: string;
+  Limit?: number;
+  PaginationToken?: string;
+  UserPoolId: string;
+}

@@ -23,7 +23,7 @@ const MessageError = {
   listUsers: {
     name: 'COGNITO_SERVICE_LIST_USERS_ERROR',
     messages: {
-      userPoolId: 'undefined user pool id',
+      userPoolId: 'cognito pool user id is undefined',
     },
   },
   authentication: {
@@ -44,7 +44,7 @@ const MessageError = {
       username: 'username is undefined',
       password: 'password is undefined',
       clientId: 'cognito client id is undefined',
-      poolId: 'cognito client id is undefined',
+      poolId: 'cognito pool user id is undefined',
       session: 'authentication result is invalid',
     },
   },
@@ -83,7 +83,7 @@ const MessageError = {
     name: 'COGNITO_SERVICE_CREATE_USER_ERROR',
     messages: {
       user: 'undefined user',
-      clientId: 'undefined client Id',
+      clientId: 'cognito client id is undefined',
       userConfirmed: '"The user wasn\'t confirmed"',
     },
   },
@@ -93,7 +93,7 @@ const MessageError = {
       apiKey: 'undefined apiKey',
       name: 'undefined name',
       ip: 'undefined ip',
-      clientId: 'undefined client Id',
+      clientId: 'cognito client id is undefined',
       session: 'there is un error creating the session',
       authResult: 'there is un error responding challenge',
     },
@@ -104,8 +104,29 @@ const MessageError = {
       refreshToken: 'refresh token is undefined',
       flow: 'auth flow is undefined',
       clientId: 'cognito client id is undefined',
-      poolId: 'cognito client id is undefined',
+      poolId: 'cognito user pool id is undefined',
       authResult: 'there was an error refreshing the tokens',
+    },
+  },
+  deleteUser: {
+    name: 'COGNITO_SERVICE_DELETE_USER_ERROR',
+    messages: {
+      username: 'refresh token is undefined',
+      poolId: 'cognito user pool id is undefined',
+    },
+  },
+  disableUser: {
+    name: 'COGNITO_SERVICE_DISABLE_USER_ERROR',
+    messages: {
+      username: 'refresh token is undefined',
+      poolId: 'cognito user pool id is undefined',
+    },
+  },
+  enableUser: {
+    name: 'COGNITO_SERVICE_ENABLE_USER_ERROR',
+    messages: {
+      username: 'refresh token is undefined',
+      poolId: 'cognito user pool id is undefined',
     },
   },
 };

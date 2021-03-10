@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { DynamoDB } from 'aws-sdk';
-import { queryAtLeastOneItem } from '../../../../lib/dynamodb/queryItems';
+import { queryAtLeastOneItem } from '../../../../lib/dynamodb/queryAtLeastOneItem';
 import { expect, sinon } from '../../../libs.tests/chai.commons';
 import { QueryParamsFactory } from '../../../factories/dynamodb.factory';
 import ErrorTypes from '../../../../lib/errors/errorTypes';

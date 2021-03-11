@@ -1,25 +1,4 @@
 const MessageError = {
-  queryAtLeastOneItem: {
-    name: 'DATABASE_SERVICE_QUERY_ERROR',
-    messages: {
-      tableName: 'undefined table name',
-      notFoundItem: 'given params did not found items',
-    },
-  },
-  createItem: {
-    name: 'DATABASE_SERVICE_CREATE_ERROR',
-    messages: {
-      tableName: 'undefined table name',
-      item: 'undefined item to create',
-    },
-  },
-  getItem: {
-    name: 'DATABASE_SERVICE_GET_ERROR',
-    messages: {
-      tableName: 'undefined table name',
-      undefinedResult: 'could not get the resource requested',
-    },
-  },
   listUsers: {
     name: 'COGNITO_SERVICE_LIST_USERS_ERROR',
     messages: {
@@ -48,14 +27,6 @@ const MessageError = {
       session: 'authentication result is invalid',
     },
   },
-  updateItem: {
-    name: 'DATABASE_SERVICE_UPDATE_ERROR',
-    messages: {
-      tableName: 'undefined table name',
-      attributes: 'could not get new attributes from updated item',
-      key: 'undefined table key',
-    },
-  },
   uploadItem: {
     name: 'STORAGE_SERVICE_UPLOAD_ERROR',
     messages: {
@@ -71,12 +42,6 @@ const MessageError = {
       bucketName: 'undefined bucket name',
       key: 'undefined body',
       notFoundItem: 'given params did not found items',
-    },
-  },
-  listItems: {
-    name: 'DATABASE_SERVICE_LIST_ERROR',
-    messages: {
-      tableName: 'undefined table name',
     },
   },
   createUser: {

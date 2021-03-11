@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
-import MessageError from '../message.errors';
+import MessageError from './utils/message.errors';
 import { PutDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
 

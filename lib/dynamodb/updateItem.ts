@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
-import MessageError from '../message.errors';
+import MessageError from './utils/message.errors';
 import { UpdateDynamoParams } from './types';
 import generateUpdateQuery from './utils/generate-update-query';
 

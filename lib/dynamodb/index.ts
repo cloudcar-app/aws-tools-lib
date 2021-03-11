@@ -1,4 +1,5 @@
 export { createItem } from './createItem';
+export { deleteItem } from './deleteItem';
 export { queryAtLeastOneItem } from './queryAtLeastOneItem';
 export { getItem } from './getItem';
 export { listItems } from './listItems';

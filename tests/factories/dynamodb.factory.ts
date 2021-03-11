@@ -6,6 +6,7 @@ import {
   UpdateDynamoParams,
   QueryDynamoParams,
   PutDynamoParams,
+  DeleteDynamoParams,
 } from '../../lib/dynamodb/types';
 
 export const ScanDynamoParamsFactory = define<ScanDynamoParams>({
@@ -38,5 +39,16 @@ export const PutDynamoParamsFactory = define<PutDynamoParams>({
       createdAt: DateTime.local().setZone('America/Santiago').toString(),
     };
   },
+  ConditionExpression: 'some-condition-expression',
+});
+export const DeleteDynamoParamsFactory = define<DeleteDynamoParams>({
+  TableName: 'some-table-name',
+  Key: (i: number) => {
+    return {
+      primaryKey: `primary-key-#${i}`,
+      secondaryKey: `secondary-key-#${i}`,
+    };
+  },
+  ReturnValues: 'NONE',
   ConditionExpression: 'some-condition-expression',
 });

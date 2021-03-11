@@ -6,8 +6,8 @@ import MessageError from '../message.errors';
 const cognitoClient = process.env.LOCAL
   ? new CognitoIdentityServiceProvider()
   : new CognitoIdentityServiceProvider({
-    region: process.env.REGION,
-  });
+      region: process.env.REGION,
+    });
 
 // eslint-disable-next-line import/prefer-default-export
 export const refreshTokens = async (authParams: AuthParams) => {

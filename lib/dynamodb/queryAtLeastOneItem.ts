@@ -1,8 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
-import MessageError from '../message.errors';
+import MessageError from './utils/message.errors';
 import { QueryDynamoParams } from './types';
-
 import { documentClient } from './utils/dynamoClient';
 
 export const queryAtLeastOneItem = async (

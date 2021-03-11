@@ -1,8 +1,3 @@
-// const params = {
-//   CognitoClientId: process.env.CONCESSIONAIRE_COGNITO_CLIENT_ID,
-//   concessionaire,
-// };
-
 export interface CreateCognitoUser {
   CognitoClientId?: string;
   User?: User;
@@ -42,5 +37,10 @@ export interface ListUsersParams {
   Filter?: string;
   Limit?: number;
   PaginationToken?: string;
+  UserPoolId: string;
+}
+
+export interface UsernameParams {
+  Username: string;
   UserPoolId: string;
 }

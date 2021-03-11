@@ -5,15 +5,15 @@ import { QueryDynamoParams } from './types';
 
 import { documentClient } from './utils/dynamoClient';
 
-export const queryItems = async (
+export const queryAtLeastOneItem = async (
   params: QueryDynamoParams,
-): Promise<DynamoDB.DocumentClient.QueryOutput> => {
+): Promise<Object[]> => {
   const { TableName } = params;
 
   if (TableName === undefined) {
     throw new CloudcarError({
-      message: MessageError.queryItems.messages.tableName,
-      name: MessageError.queryItems.name,
+      message: MessageError.queryAtLeastOneItem.messages.tableName,
+      name: MessageError.queryAtLeastOneItem.name,
     });
   }
 
@@ -21,5 +21,11 @@ export const queryItems = async (
     .query(params as DynamoDB.QueryInput)
     .promise();
 
-  return result;
+  if (result.Items === undefined || result.Items.length === 0) {
+    throw new CloudcarError({
+      message: MessageError.queryAtLeastOneItem.messages.notFoundItem,
+      name: MessageError.queryAtLeastOneItem.name,
+    });
+  }
+  return result.Items;
 };

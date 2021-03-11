@@ -1,9 +1,15 @@
 const MessageError = {
   queryAtLeastOneItem: {
-    name: 'DATABASE_SERVICE_QUERY_ERROR',
+    name: 'DATABASE_SERVICE_QUERY_AT_LEAST_ONE_ITEM_ERROR',
     messages: {
       tableName: 'undefined table name',
       notFoundItem: 'given params did not found items',
+    },
+  },
+  queryItems: {
+    name: 'DATABASE_SERVICE_QUERY_ERROR',
+    messages: {
+      tableName: 'undefined table name',
     },
   },
   createItem: {

@@ -111,21 +111,21 @@ const MessageError = {
   deleteUser: {
     name: 'COGNITO_SERVICE_DELETE_USER_ERROR',
     messages: {
-      username: 'refresh token is undefined',
+      username: 'username is undefined',
       poolId: 'cognito user pool id is undefined',
     },
   },
   disableUser: {
     name: 'COGNITO_SERVICE_DISABLE_USER_ERROR',
     messages: {
-      username: 'refresh token is undefined',
+      username: 'username is undefined',
       poolId: 'cognito user pool id is undefined',
     },
   },
   enableUser: {
     name: 'COGNITO_SERVICE_ENABLE_USER_ERROR',
     messages: {
-      username: 'refresh token is undefined',
+      username: 'username is undefined',
       poolId: 'cognito user pool id is undefined',
     },
   },

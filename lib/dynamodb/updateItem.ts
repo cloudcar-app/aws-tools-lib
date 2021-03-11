@@ -4,7 +4,6 @@ import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { UpdateDynamoParams } from './types';
 import generateUpdateQuery from './utils/generate-update-query';
-
 import { documentClient } from './utils/dynamoClient';
 
 export const updateItem = async (

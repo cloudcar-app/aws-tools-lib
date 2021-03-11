@@ -1,9 +1,15 @@
 const MessageError = {
   queryAtLeastOneItem: {
-    name: 'DATABASE_SERVICE_QUERY_ERROR',
+    name: 'DATABASE_SERVICE_QUERY_AT_LEAST_ONE_ITEM_ERROR',
     messages: {
       tableName: 'undefined table name',
       notFoundItem: 'given params did not found items',
+    },
+  },
+  queryItems: {
+    name: 'DATABASE_SERVICE_QUERY_ERROR',
+    messages: {
+      tableName: 'undefined table name',
     },
   },
   createItem: {
@@ -13,18 +19,18 @@ const MessageError = {
       item: 'undefined item to create',
     },
   },
-  deleteItem: {
-    name: 'DATABASE_SERVICE_DELETE_ERROR',
-    messages: {
-      tableName: 'undefined table name',
-      key: 'undefined keys',
-    },
-  },
   getItem: {
     name: 'DATABASE_SERVICE_GET_ERROR',
     messages: {
       tableName: 'undefined table name',
       undefinedResult: 'could not get the resource requested',
+    },
+  },
+  deleteItem: {
+    name: 'DATABASE_SERVICE_DELETE_ERROR',
+    messages: {
+      tableName: 'undefined table name',
+      key: 'undefined keys',
     },
   },
   updateItem: {

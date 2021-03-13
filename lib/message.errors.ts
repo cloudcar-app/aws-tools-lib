@@ -94,6 +94,14 @@ const MessageError = {
       poolId: 'cognito user pool id is undefined',
     },
   },
+  updateUser: {
+    name: 'COGNITO_SERVICE_UPDATE_USER_ERROR',
+    messages: {
+      username: 'username is undefined',
+      poolId: 'cognito user pool id is undefined',
+      userAttributes: 'user attributes are undefined',
+    },
+  },
 };
 
 export default MessageError;

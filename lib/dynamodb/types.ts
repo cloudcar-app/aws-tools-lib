@@ -14,7 +14,7 @@ interface DeleteDynamoParams {
   /**
    * The name of the table from which to delete the item.
    */
-  TableName: string;
+  TableName?: string;
   /**
    * A map of attribute names to AttributeValue objects, representing the primary key of the item to delete. For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
    */

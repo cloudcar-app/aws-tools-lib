@@ -6,3 +6,4 @@ export { listUsers } from './listUsers';
 export { deleteUser } from './deleteUser';
 export { disableUser } from './disableUser';
 export { enableUser } from './enableUser';
+export { updateUser } from './updateUser';

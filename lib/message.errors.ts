@@ -94,11 +94,18 @@ const MessageError = {
       poolId: 'cognito user pool id is undefined',
     },
   },
-  updateUser: {
-    name: 'COGNITO_SERVICE_UPDATE_USER_ERROR',
+  adminUpdateUser: {
+    name: 'COGNITO_SERVICE_ADMIN_UPDATE_USER_ERROR',
     messages: {
       username: 'username is undefined',
       poolId: 'cognito user pool id is undefined',
+      userAttributes: 'user attributes are undefined',
+    },
+  },
+  updateUser: {
+    name: 'COGNITO_SERVICE_UPDATE_USER_ERROR',
+    messages: {
+      accessToken: 'accessToken is undefined',
       userAttributes: 'user attributes are undefined',
     },
   },

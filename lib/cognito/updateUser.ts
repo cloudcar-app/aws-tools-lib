@@ -9,18 +9,12 @@ const cognitoClient = process.env.LOCAL
     });
 
 export const updateUser = async (
-  params: CognitoIdentityServiceProvider.Types.AdminUpdateUserAttributesRequest,
+  params: CognitoIdentityServiceProvider.Types.UpdateUserAttributesRequest,
 ) => {
-  const { Username, UserPoolId, UserAttributes } = params;
-  if (Username === undefined) {
+  const { AccessToken, UserAttributes } = params;
+  if (AccessToken === undefined) {
     throw new CloudcarError({
-      message: MessageError.updateUser.messages.username,
-      name: MessageError.updateUser.name,
-    });
-  }
-  if (UserPoolId === undefined) {
-    throw new CloudcarError({
-      message: MessageError.updateUser.messages.poolId,
+      message: MessageError.updateUser.messages.accessToken,
       name: MessageError.updateUser.name,
     });
   }
@@ -30,8 +24,6 @@ export const updateUser = async (
       name: MessageError.updateUser.name,
     });
   }
-  const result = await cognitoClient
-    .adminUpdateUserAttributes(params)
-    .promise();
+  const result = await cognitoClient.updateUserAttributes(params).promise();
   return result;
 };

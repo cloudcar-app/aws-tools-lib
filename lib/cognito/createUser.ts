@@ -2,7 +2,7 @@ import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { v1 as uuidV1 } from 'uuid';
 import { CreateCognitoUser } from './types';
 import CloudcarError from '../errors/index';
-import MessageError from '../message.errors';
+import MessageError from './utils/message.errors';
 
 const cognitoClient = process.env.LOCAL
   ? new CognitoIdentityServiceProvider()

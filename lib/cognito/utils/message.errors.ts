@@ -92,6 +92,12 @@ const MessageError = {
       userAttributes: 'user attributes are undefined',
     },
   },
+  getUser: {
+    name: 'COGNITO_SERVICE_GET_USER_ERROR',
+    messages: {
+      accessToken: 'accessToken is undefined',
+    },
+  },
 };
 
 export default MessageError;

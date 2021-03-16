@@ -1,4 +1,5 @@
 {
+  "name": "aws-tools-lib",
   "include": [
     "lib/**/*"
   ],

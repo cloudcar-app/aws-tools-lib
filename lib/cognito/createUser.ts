@@ -1,24 +1,20 @@
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { v1 as uuidV1 } from 'uuid';
+import { cognitoClient } from './utils/cognitoClient';
 import { CreateCognitoUser } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 
-const cognitoClient = process.env.LOCAL
-  ? new CognitoIdentityServiceProvider()
-  : new CognitoIdentityServiceProvider({
-      region: process.env.REGION,
-    });
 export const createUser = async (params: CreateCognitoUser) => {
   const { User: user, CognitoClientId, Metadata: metadata } = params;
-  if (user === undefined) {
+  if (user === undefined || !user) {
     throw new CloudcarError({
       message: MessageError.createUser.messages.user,
       name: MessageError.createUser.name,
     });
   }
 
-  if (CognitoClientId === undefined) {
+  if (CognitoClientId === undefined || !CognitoClientId) {
     throw new CloudcarError({
       message: MessageError.createUser.messages.clientId,
       name: MessageError.createUser.name,

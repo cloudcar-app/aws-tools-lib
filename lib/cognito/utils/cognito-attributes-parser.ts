@@ -6,9 +6,9 @@ import ErrorTypes from '../../errors/errorTypes';
 import { CognitoUser } from '../types';
 
 /**
- * remove the 'custom:' string from a cognito user attribute
+ * return a parsed attribute name. if the attribute has custom as a prefix it is eliminated, otherwise the attribute itself is returned.
  */
-const removeCustomFromAttribute = (attribute: string) => {
+const parseAttributeName = (attribute: string) => {
   if (attribute.includes('custom')) {
     return attribute.replace('custom:', '');
   }
@@ -16,15 +16,17 @@ const removeCustomFromAttribute = (attribute: string) => {
 };
 
 /**
- * return a instance of an user. calling this action requires a list of strings representing the attributes to get from a cognito user and the cognito user itself
+ * return a instance of an user. This method receives a list of the names of the attributes to be destructured from the cognito user, together with the list of all the attributes of the cognito user result. The method internally calls 'parseAttributeName' to assign the cognito attributes without the custom prefix.
  */
-export const assignAttributesToUse = (
+export const destructureAttributesFromCognitoUser = (
   attributesToGet: string[],
-  cognitoUser: CognitoIdentityServiceProvider.GetUserResponse,
+  cognitoUserAttributes:
+    | CognitoIdentityServiceProvider.AttributeListType
+    | undefined,
 ) => {
   const user = {} as CognitoUser;
 
-  if (!cognitoUser.UserAttributes) {
+  if (!cognitoUserAttributes) {
     throw new CloudcarError({
       message: MessageError.cognitoUser.messages.undefinedAttributes,
       name: MessageError.cognitoUser.name,
@@ -32,13 +34,12 @@ export const assignAttributesToUse = (
     });
   }
 
-  cognitoUser.UserAttributes.forEach((attribute) => {
+  cognitoUserAttributes.forEach((attribute) => {
     if (attributesToGet.includes(attribute.Name)) {
-      user[removeCustomFromAttribute(attribute.Name)] = attribute.Value;
+      const attributeName = parseAttributeName(attribute.Name);
+      user[attributeName] = attribute.Value;
     }
   });
-
-  user.username = cognitoUser.Username;
 
   return user;
 };

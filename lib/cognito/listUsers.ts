@@ -1,9 +1,13 @@
 import { cognitoClient } from './utils/cognitoClient';
-import { ListUsersParams } from './types';
+import { ListUsersParams, CognitoUser } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
+import { destructureAttributesFromCognitoUser } from './utils/cognito-attributes-parser';
 
-export const listUsers = async (params: ListUsersParams) => {
+export const listUsers = async (
+  attributesToGet: string[],
+  params: ListUsersParams,
+) => {
   const { UserPoolId } = params;
   if (UserPoolId === undefined || !UserPoolId) {
     throw new CloudcarError({
@@ -11,6 +15,20 @@ export const listUsers = async (params: ListUsersParams) => {
       name: MessageError.listUsers.name,
     });
   }
-  const users = await cognitoClient.listUsers(params).promise();
-  return users.Users;
+
+  const result = await cognitoClient.listUsers(params).promise();
+
+  const usersList: CognitoUser[] = [];
+
+  if (result.Users !== undefined) {
+    result.Users.forEach((cognitoUser) => {
+      const user = destructureAttributesFromCognitoUser(
+        attributesToGet,
+        cognitoUser.Attributes,
+      );
+      usersList.push(user);
+    });
+  }
+
+  return usersList;
 };

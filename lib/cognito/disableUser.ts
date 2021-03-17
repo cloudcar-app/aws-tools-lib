@@ -1,28 +1,27 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { cognitoClient } from './utils/cognitoClient';
 import { UsernameParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 
-const cognitoClient = process.env.LOCAL
-  ? new CognitoIdentityServiceProvider()
-  : new CognitoIdentityServiceProvider({
-      region: process.env.REGION,
-    });
+/**
+ * This method is to disable the account. The user will not be able to
+ * signin.
+ */
 
 export const disableUser = async (params: UsernameParams) => {
   const { Username, UserPoolId } = params;
-  if (Username === undefined) {
+  if (Username === undefined || !Username) {
     throw new CloudcarError({
       message: MessageError.disableUser.messages.username,
       name: MessageError.disableUser.name,
     });
   }
-  if (UserPoolId === undefined) {
+  if (UserPoolId === undefined || !UserPoolId) {
     throw new CloudcarError({
       message: MessageError.disableUser.messages.poolId,
       name: MessageError.disableUser.name,
     });
   }
-  const result = await cognitoClient.adminDisableUser(params).promise();
-  return result;
+  await cognitoClient.adminDisableUser(params).promise();
+  return { message: 'user was disable successfully' };
 };

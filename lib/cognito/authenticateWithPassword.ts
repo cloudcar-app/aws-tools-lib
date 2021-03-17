@@ -2,12 +2,7 @@ import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
-
-const cognitoClient = process.env.LOCAL
-  ? new CognitoIdentityServiceProvider()
-  : new CognitoIdentityServiceProvider({
-      region: process.env.REGION,
-    });
+import { cognitoClient } from './utils/cognitoClient';
 // eslint-disable-next-line import/prefer-default-export
 export const authenticateWithPassword = async (authParams: AuthParams) => {
   const {
@@ -16,22 +11,22 @@ export const authenticateWithPassword = async (authParams: AuthParams) => {
     password,
     CognitoUserPoolId: userPoolId,
   } = authParams;
-  if (username === undefined) {
+  if (username === undefined || !username) {
     throw new CloudcarError({
       message: MessageError.login.messages.username,
       name: MessageError.login.name,
     });
-  } else if (password === undefined) {
+  } else if (password === undefined || !password) {
     throw new CloudcarError({
       message: MessageError.login.messages.password,
       name: MessageError.login.name,
     });
-  } else if (cognitoClientId === undefined) {
+  } else if (cognitoClientId === undefined || !cognitoClientId) {
     throw new CloudcarError({
       message: MessageError.login.messages.clientId,
       name: MessageError.login.name,
     });
-  } else if (userPoolId === undefined) {
+  } else if (userPoolId === undefined || !userPoolId) {
     throw new CloudcarError({
       message: MessageError.login.messages.poolId,
       name: MessageError.login.name,

@@ -1,24 +1,19 @@
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { cognitoClient } from './utils/cognitoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
-
-const cognitoClient = process.env.LOCAL
-  ? new CognitoIdentityServiceProvider()
-  : new CognitoIdentityServiceProvider({
-      region: process.env.REGION,
-    });
 
 export const updateUser = async (
   params: CognitoIdentityServiceProvider.Types.UpdateUserAttributesRequest,
 ) => {
   const { AccessToken, UserAttributes } = params;
-  if (AccessToken === undefined) {
+  if (AccessToken === undefined || !AccessToken) {
     throw new CloudcarError({
       message: MessageError.updateUser.messages.accessToken,
       name: MessageError.updateUser.name,
     });
   }
-  if (UserAttributes === undefined) {
+  if (UserAttributes === undefined || !UserAttributes) {
     throw new CloudcarError({
       message: MessageError.updateUser.messages.userAttributes,
       name: MessageError.updateUser.name,

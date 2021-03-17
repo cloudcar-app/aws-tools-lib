@@ -98,6 +98,12 @@ const MessageError = {
       accessToken: 'accessToken is undefined',
     },
   },
+  cognitoUser: {
+    name: 'COGNITO_SERVICE_USERS_ATTRIBUTES_ERROR',
+    messages: {
+      undefinedAttributes: 'undefined user attributes',
+    },
+  },
 };
 
 export default MessageError;

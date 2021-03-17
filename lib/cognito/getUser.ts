@@ -2,8 +2,10 @@ import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { cognitoClient } from './utils/cognitoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
+import { destructureAttributesFromCognitoUser } from './utils/cognito-attributes-parser';
 
 export const getUser = async (
+  attributesToGet: string[],
   params: CognitoIdentityServiceProvider.Types.GetUserRequest,
 ) => {
   const { AccessToken } = params;
@@ -13,6 +15,13 @@ export const getUser = async (
       name: MessageError.getUser.name,
     });
   }
+
   const result = await cognitoClient.getUser(params).promise();
-  return result;
+  const user = destructureAttributesFromCognitoUser(
+    attributesToGet,
+    result.UserAttributes,
+  );
+
+  user.username = result.Username;
+  return user;
 };

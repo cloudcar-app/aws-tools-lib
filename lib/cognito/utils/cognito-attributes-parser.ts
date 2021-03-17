@@ -1,8 +1,13 @@
+/* eslint-disable max-len */
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import CloudcarError from '../../errors/index';
 import MessageError from './message.errors';
 import ErrorTypes from '../../errors/errorTypes';
+import { CognitoUser } from '../types';
 
+/**
+ * remove the 'custom:' string from a cognito user attribute
+ */
 const removeCustomFromAttribute = (attribute: string) => {
   if (attribute.includes('custom')) {
     return attribute.replace('custom:', '');
@@ -10,14 +15,16 @@ const removeCustomFromAttribute = (attribute: string) => {
   return attribute;
 };
 
-export const assignAttributesToUse = <T>(
+/**
+ * return a instance of an user. calling this action requires a list of strings representing the attributes to get from a cognito user and the cognito user itself
+ */
+export const assignAttributesToUse = (
   attributesToGet: string[],
-  cognitoAttributes: CognitoIdentityServiceProvider.AttributeListType,
-  modelInstance: T,
+  cognitoUser: CognitoIdentityServiceProvider.GetUserResponse,
 ) => {
-  const model = {} as typeof modelInstance;
+  const user = {} as CognitoUser;
 
-  if (!cognitoAttributes) {
+  if (!cognitoUser.UserAttributes) {
     throw new CloudcarError({
       message: MessageError.cognitoUser.messages.undefinedAttributes,
       name: MessageError.cognitoUser.name,
@@ -25,10 +32,13 @@ export const assignAttributesToUse = <T>(
     });
   }
 
-  cognitoAttributes.forEach((attribute) => {
+  cognitoUser.UserAttributes.forEach((attribute) => {
     if (attributesToGet.includes(attribute.Name)) {
-      model[removeCustomFromAttribute(attribute.Name)] = attribute.Value;
+      user[removeCustomFromAttribute(attribute.Name)] = attribute.Value;
     }
   });
-  return model;
+
+  user.username = cognitoUser.Username;
+
+  return user;
 };

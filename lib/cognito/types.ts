@@ -44,3 +44,7 @@ export interface UsernameParams {
   Username: string;
   UserPoolId: string;
 }
+
+export interface CognitoUser {
+  username: string;
+}

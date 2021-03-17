@@ -13,9 +13,9 @@ const removeCustomFromAttribute = (attribute: string) => {
 export const asignAttributesToUse = <T>(
   attributesToGet: string[],
   cognitoAttributes: CognitoIdentityServiceProvider.AttributeListType,
-  modelType: T,
+  modelInstance: T,
 ) => {
-  const model = {} as typeof modelType;
+  const model = {} as typeof modelInstance;
 
   if (!cognitoAttributes) {
     throw new CloudcarError({

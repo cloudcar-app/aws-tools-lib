@@ -6,7 +6,7 @@ import ErrorTypes from '../../errors/errorTypes';
 import { CognitoUser } from '../types';
 
 /**
- * return a parsed attribute name. if the attribute has custom as a prefix it is eliminated, otherwise the attribute itself is returned.
+ * return a parsed attribute name. if the attribute has 'custom' as a prefix it is eliminated, otherwise the attribute itself is returned.
  */
 const parseAttributeName = (attribute: string) => {
   if (attribute.includes('custom')) {

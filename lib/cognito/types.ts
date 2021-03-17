@@ -46,5 +46,6 @@ export interface UsernameParams {
 }
 
 export interface CognitoUser {
-  username: string;
+  username?: string;
+  enabled?: boolean;
 }

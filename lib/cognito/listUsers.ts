@@ -26,6 +26,8 @@ export const listUsers = async (
         attributesToGet,
         cognitoUser.Attributes,
       );
+      user.username = cognitoUser.Username as string;
+      user.enabled = cognitoUser.Enabled;
       usersList.push(user);
     });
   }

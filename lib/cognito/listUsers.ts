@@ -1,18 +1,11 @@
-/* eslint-disable prettier/prettier */
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { cognitoClient } from './utils/cognitoClient';
 import { ListUsersParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 
-const cognitoClient = process.env.LOCAL
-  ? new CognitoIdentityServiceProvider()
-  : new CognitoIdentityServiceProvider({
-    region: process.env.REGION,
-  });
-
 export const listUsers = async (params: ListUsersParams) => {
   const { UserPoolId } = params;
-  if (UserPoolId === undefined) {
+  if (UserPoolId === undefined || !UserPoolId) {
     throw new CloudcarError({
       message: MessageError.listUsers.messages.userPoolId,
       name: MessageError.listUsers.name,

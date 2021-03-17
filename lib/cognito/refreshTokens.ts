@@ -1,13 +1,8 @@
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { cognitoClient } from './utils/cognitoClient';
 import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
-
-const cognitoClient = process.env.LOCAL
-  ? new CognitoIdentityServiceProvider()
-  : new CognitoIdentityServiceProvider({
-      region: process.env.REGION,
-    });
 
 // eslint-disable-next-line import/prefer-default-export
 export const refreshTokens = async (authParams: AuthParams) => {
@@ -17,22 +12,22 @@ export const refreshTokens = async (authParams: AuthParams) => {
     flow,
     CognitoUserPoolId: userPoolId,
   } = authParams;
-  if (refreshToken === undefined) {
+  if (refreshToken === undefined || !refreshToken) {
     throw new CloudcarError({
       message: MessageError.refreshTokens.messages.refreshToken,
       name: MessageError.refreshTokens.name,
     });
-  } else if (cognitoClientId === undefined) {
+  } else if (cognitoClientId === undefined || !cognitoClientId) {
     throw new CloudcarError({
       message: MessageError.refreshTokens.messages.clientId,
       name: MessageError.refreshTokens.name,
     });
-  } else if (userPoolId === undefined) {
+  } else if (userPoolId === undefined || !userPoolId) {
     throw new CloudcarError({
       message: MessageError.refreshTokens.messages.poolId,
       name: MessageError.refreshTokens.name,
     });
-  } else if (flow === undefined) {
+  } else if (flow === undefined || !flow) {
     throw new CloudcarError({
       message: MessageError.refreshTokens.messages.flow,
       name: MessageError.refreshTokens.name,

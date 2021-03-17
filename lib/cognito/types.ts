@@ -17,7 +17,7 @@ export interface AuthParams {
 interface User {
   name: string;
   email: string;
-  customAttribute?: [CustomAttribute];
+  customAttribute?: CustomAttribute[];
 }
 
 interface CustomAttribute {

@@ -1,32 +1,27 @@
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { cognitoClient } from './utils/cognitoClient';
 import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 
-const cognitoClient = process.env.LOCAL
-  ? new CognitoIdentityServiceProvider()
-  : new CognitoIdentityServiceProvider({
-      region: process.env.REGION,
-    });
-
 export const authenticateWithCustomFlow = async (params: AuthParams) => {
   const { username, Answer, CognitoClientId, flow } = params;
-  if (Answer === undefined) {
+  if (Answer === undefined || !Answer) {
     throw new CloudcarError({
       message: MessageError.createPurchaseIntent.messages.apiKey,
       name: MessageError.createPurchaseIntent.name,
     });
-  } else if (username === undefined) {
+  } else if (username === undefined || !username) {
     throw new CloudcarError({
       message: MessageError.createPurchaseIntent.messages.name,
       name: MessageError.createPurchaseIntent.name,
     });
-  } else if (CognitoClientId === undefined) {
+  } else if (CognitoClientId === undefined || !CognitoClientId) {
     throw new CloudcarError({
       message: MessageError.createPurchaseIntent.messages.clientId,
       name: MessageError.createPurchaseIntent.name,
     });
-  } else if (flow === undefined) {
+  } else if (flow === undefined || !flow) {
     throw new CloudcarError({
       message: MessageError.createPurchaseIntent.messages.ip,
       name: MessageError.createPurchaseIntent.name,

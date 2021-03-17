@@ -9,4 +9,3 @@ export { enableUser } from './enableUser';
 export { adminUpdateUser } from './adminUpdateUser';
 export { updateUser } from './updateUser';
 export { getUser } from './getUser';
-export { assignAttributesToUse } from './utils/cognito-attributes-parser';

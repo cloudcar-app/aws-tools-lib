@@ -10,7 +10,7 @@ const removeCustomFromAttribute = (attribute: string) => {
   return attribute;
 };
 
-export const asignAttributesToUse = <T>(
+export const assignAttributesToUse = <T>(
   attributesToGet: string[],
   cognitoAttributes: CognitoIdentityServiceProvider.AttributeListType,
   modelInstance: T,

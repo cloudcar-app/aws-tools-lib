@@ -4,7 +4,7 @@ import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 
 /**
- * This method is to delete an account. The user will be able to
+ * This method is to delete an account. The user will not be able to
  * signin anymore.
  */
 export const deleteUser = async (params: UsernameParams) => {

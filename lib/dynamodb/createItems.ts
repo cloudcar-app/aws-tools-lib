@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { DateTime } from 'luxon';
 import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
@@ -5,6 +6,22 @@ import MessageError from './utils/message.errors';
 import { BatchWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
 
+/**
+ * returns true if the batch write has any unprocessed element. otherwise it returns false
+ */
+const areUnprocessedItems = (result: DynamoDB.BatchWriteItemOutput) => {
+  if (
+    result.UnprocessedItems &&
+    Object.keys(result.UnprocessedItems).length > 0
+  ) {
+    return true;
+  }
+  return false;
+};
+
+/**
+ * receives a list of items to write to dynamo. The writes are grouped by lists of length 25. In case the original list of elements is not a multiple of 25, an independent writing is done outside of the original loop. The function returns an array with the elements that were not processed by the batch write
+ */
 export const createItems = async (
   params: BatchWriteDynamoParams,
   tableName: string,
@@ -25,47 +42,56 @@ export const createItems = async (
     });
   }
 
+  let itemCount = 0;
   const itemsToWrite = RequestItems[tableName];
-  itemsToWrite.forEach((request, index) => {
+  const currentBatchToWrite: DynamoDB.WriteRequest[] = [];
+  const unprocessedItems: DynamoDB.BatchWriteItemRequestMap[] = [];
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const itemToWrite of itemsToWrite) {
+    itemCount += 1;
     const item = {
       PutRequest: {
         Item: {
-          ...(request.PutRequest?.Item as {}),
+          ...(itemToWrite.PutRequest?.Item as {}),
           createdAt: DateTime.local().toString(),
         },
       },
     };
-    itemsToWrite[index] = item as {};
-  });
 
-  let quotient = Math.floor(itemsToWrite.length / 25);
-  const remainder = itemsToWrite.length % 25;
-
-  let batchMultiplier = 1;
-  let result;
-  while (quotient > 0) {
-    for (let i = 0; i < itemsToWrite.length - 1; i += 25) {
+    currentBatchToWrite.push(item as DynamoDB.WriteRequest);
+    if (itemCount % 25 === 0) {
       // eslint-disable-next-line no-await-in-loop
-      result = await documentClient
+      const result = await documentClient
         .batchWrite({
           RequestItems: {
-            [tableName]: itemsToWrite.slice(i, 25 * batchMultiplier),
+            [tableName]: currentBatchToWrite,
           },
-        } as DynamoDB.BatchWriteItemInput)
+        })
         .promise();
-      batchMultiplier += 1;
-      quotient -= 1;
+      if (areUnprocessedItems(result)) {
+        unprocessedItems.push(
+          result.UnprocessedItems as DynamoDB.BatchWriteItemRequestMap,
+        );
+      }
+      currentBatchToWrite.length = 0;
     }
   }
 
-  if (remainder > 0) {
-    result = await documentClient
+  if (currentBatchToWrite.length > 0) {
+    const result = await documentClient
       .batchWrite({
         RequestItems: {
-          [tableName]: itemsToWrite.slice(itemsToWrite.length - remainder),
+          [tableName]: currentBatchToWrite,
         },
       } as DynamoDB.BatchWriteItemInput)
       .promise();
+    if (areUnprocessedItems(result)) {
+      unprocessedItems.push(
+        result.UnprocessedItems as DynamoDB.BatchWriteItemRequestMap,
+      );
+    }
   }
-  return result.UnprocessedItems;
+
+  return unprocessedItems;
 };

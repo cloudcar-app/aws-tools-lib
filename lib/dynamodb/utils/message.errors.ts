@@ -50,8 +50,9 @@ const MessageError = {
   createItems: {
     name: 'DATABASE_SERVICE_BATCH_WRITE_ERROR',
     messages: {
-      requestItems: 'undefined request attributes name',
+      itemsToWrite: 'undefined items to write',
       tableName: 'undefined table name',
+      tableKey: 'undefined table key',
     },
   },
 };

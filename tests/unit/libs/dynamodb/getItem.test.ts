@@ -4,7 +4,7 @@ import { getItem } from '../../../../lib/dynamodb/getItem';
 import { expect, sinon } from '../../../libs.tests/chai.commons';
 import { QueryParamsFactory } from '../../../factories/dynamodb.factory';
 import ErrorTypes from '../../../../lib/errors/errorTypes';
-import MessageError from '../../../../lib/message.errors';
+import MessageError from '../../../../lib/dynamodb/utils/message.errors';
 
 describe('AWS-WRAPPER: getItem', () => {
   let dynamoDBQueryStub: sinon.SinonStub<any, any>;

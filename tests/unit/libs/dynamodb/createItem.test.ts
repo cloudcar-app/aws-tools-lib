@@ -4,7 +4,7 @@ import { createItem } from '../../../../lib/dynamodb/createItem';
 import { expect, sinon } from '../../../libs.tests/chai.commons';
 import { PutDynamoParamsFactory } from '../../../factories/dynamodb.factory';
 import ErrorTypes from '../../../../lib/errors/errorTypes';
-import MessageError from '../../../../lib/message.errors';
+import MessageError from '../../../../lib/dynamodb/utils/message.errors';
 
 describe('AWS-WRAPPER: createItem', () => {
   let dynamoDBPutStub: sinon.SinonStub<any, any>;

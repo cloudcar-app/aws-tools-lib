@@ -11,8 +11,12 @@ interface PutDynamoParams {
   ConditionExpression?: string;
 }
 
+interface ItemToWrite {
+  Item: { [key: string]: string };
+}
+
 interface WriteRequest {
-  PutRequest?: { [key: string]: string };
+  PutRequest?: ItemToWrite;
 }
 
 interface BatchWriteDynamoParams {

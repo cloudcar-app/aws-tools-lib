@@ -138,7 +138,7 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
     }
   }
 
-  if (currentBatchToWrite.length < 0) {
+  if (currentBatchToWrite.length > 0) {
     const result = await batchWrite(tableName, currentBatchToWrite);
     if (Object.keys(result).length > 0) unprocessedItems.push(...result);
   }

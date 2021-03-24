@@ -138,8 +138,10 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
     }
   }
 
-  const result = await batchWrite(tableName, currentBatchToWrite);
-  if (Object.keys(result).length > 0) unprocessedItems.push(...result);
+  if (currentBatchToWrite.length < 0) {
+    const result = await batchWrite(tableName, currentBatchToWrite);
+    if (Object.keys(result).length > 0) unprocessedItems.push(...result);
+  }
 
   return unprocessedItems;
 };

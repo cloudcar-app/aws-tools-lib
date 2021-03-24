@@ -1,9 +1,7 @@
-import { SES } from 'aws-sdk';
+import { ses } from './utils/sesClient';
 import MessageError from './utils/message.errors';
 import { SendEmailSESparams } from './types';
 import CloudcarError from '../errors/index';
-
-const ses = new SES();
 
 export const sendEmail = async (params: SendEmailSESparams) => {
   const { to, from, subject, text } = params;

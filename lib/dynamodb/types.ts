@@ -11,18 +11,10 @@ interface PutDynamoParams {
   ConditionExpression?: string;
 }
 
-interface ItemToWrite {
-  Item: { [key: string]: string };
-}
-
-interface WriteRequest {
-  PutRequest?: ItemToWrite;
-}
-
 interface BatchWriteDynamoParams {
-  RequestItems: { [key: string]: WriteRequest[] };
-  ReturnConsumedCapacity?: string;
-  ReturnItemCollectionMetrics?: string;
+  itemsToWrite: { [key: string]: string | number }[];
+  tableName: string | undefined;
+  tableKey: string;
 }
 
 interface DeleteDynamoParams {

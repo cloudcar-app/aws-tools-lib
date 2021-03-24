@@ -1,10 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { sendEmail } from '../../../../lib/SES/sendEmail';
-import { expect } from '../../../libs.tests/chai.commons';
+import { ses } from '../../../../lib/ses/utils/sesClient';
+import { sendEmail } from '../../../../lib/ses/sendEmail';
+import { expect, sinon } from '../../../libs.tests/chai.commons';
 import { SendEmailSESParamsFactory } from '../../../factories/ses.factory';
 import MessageError from '../../../../lib/ses/utils/message.errors';
 
 describe('SES: send email', () => {
+  let sesSendEmailStub: sinon.SinonStub<any, any>;
+
+  beforeEach(() => {
+    sesSendEmailStub = sinon.stub(ses, 'sendEmail');
+  });
+
+  afterEach(() => {
+    sesSendEmailStub.restore();
+  });
+
+  it('[SUCCESS] should return the message id', async () => {
+    const sendEmailParams = SendEmailSESParamsFactory();
+    const messageId = 'some-message-id';
+    sesSendEmailStub.returns({
+      promise: () => {
+        return { messageId };
+      },
+    });
+    const result = await sendEmail(sendEmailParams);
+    expect(sesSendEmailStub).to.have.been.calledOnce;
+    expect(result).to.be.deep.equal({ messageId });
+  });
+
   it('[ERROR] should return error when subject is undefined', async () => {
     try {
       const sendEmailParams = SendEmailSESParamsFactory({

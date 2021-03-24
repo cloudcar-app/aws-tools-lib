@@ -47,6 +47,13 @@ const MessageError = {
       tableName: 'undefined table name',
     },
   },
+  createItems: {
+    name: 'DATABASE_SERVICE_BATCH_WRITE_ERROR',
+    messages: {
+      requestItems: 'undefined request attributes name',
+      tableName: 'undefined table name',
+    },
+  },
 };
 
 export default MessageError;

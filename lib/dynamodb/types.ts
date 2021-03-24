@@ -10,6 +10,17 @@ interface PutDynamoParams {
   Item: Object;
   ConditionExpression?: string;
 }
+
+interface WriteRequest {
+  PutRequest?: { [key: string]: string };
+}
+
+interface BatchWriteDynamoParams {
+  RequestItems: { [key: string]: WriteRequest[] };
+  ReturnConsumedCapacity?: string;
+  ReturnItemCollectionMetrics?: string;
+}
+
 interface DeleteDynamoParams {
   /**
    * The name of the table from which to delete the item.
@@ -43,6 +54,7 @@ interface ScanDynamoParams {
 export {
   QueryDynamoParams,
   PutDynamoParams,
+  BatchWriteDynamoParams,
   UpdateDynamoParams,
   ScanDynamoParams,
   DeleteDynamoParams,

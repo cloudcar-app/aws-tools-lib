@@ -55,5 +55,5 @@ export const createUser = async (params: CreateCognitoUser) => {
       name: MessageError.createUser.name,
     });
   }
-  return result.$response;
+  return result;
 };

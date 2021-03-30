@@ -5,4 +5,11 @@ interface SendEmailSESparams {
   text: string;
 }
 
-export { SendEmailSESparams };
+interface SendEmailTemplatedSESparams {
+  from: string;
+  to: string[];
+  templateData: string;
+  template: string;
+}
+
+export { SendEmailSESparams, SendEmailTemplatedSESparams };

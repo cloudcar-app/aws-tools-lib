@@ -25,8 +25,6 @@ export const adminUpdateUser = async (
       name: MessageError.adminUpdateUser.name,
     });
   }
-  const result = await cognitoClient
-    .adminUpdateUserAttributes(params)
-    .promise();
-  return result;
+  await cognitoClient.adminUpdateUserAttributes(params).promise();
+  return { message: 'user was updated successfully' };
 };

@@ -1,11 +1,9 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { cognitoClient } from './utils/cognitoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
+import { AdminUpdateUserParams } from './types';
 
-export const adminUpdateUser = async (
-  params: CognitoIdentityServiceProvider.Types.AdminUpdateUserAttributesRequest,
-) => {
+export const adminUpdateUser = async (params: AdminUpdateUserParams) => {
   const { Username, UserPoolId, UserAttributes } = params;
   if (Username === undefined || !Username) {
     throw new CloudcarError({

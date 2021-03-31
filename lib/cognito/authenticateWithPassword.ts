@@ -3,7 +3,7 @@ import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { cognitoClient } from './utils/cognitoClient';
-// eslint-disable-next-line import/prefer-default-export
+
 export const authenticateWithPassword = async (authParams: AuthParams) => {
   const {
     CognitoClientId: cognitoClientId,

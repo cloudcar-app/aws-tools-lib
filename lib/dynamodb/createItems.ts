@@ -39,7 +39,7 @@ const batchWrite = async (
   if (areUnprocessedItems(result) && result.UnprocessedItems !== undefined) {
     return result.UnprocessedItems[tablename].map(
       (request) =>
-        request.PutRequest?.Item as DynamoDB.PutItemInputAttributeMap,
+        request.PutRequest?.Item as { [key: string]: string | number },
     );
   }
   return [];
@@ -103,12 +103,12 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
     });
   }
 
-  const unprocessedItems = await getItemsWithSameKeyValue(
+  const itemsWithSameKeys = await getItemsWithSameKeyValue(
     itemsToWrite,
     tableKey,
     tableName,
   );
-  const unprocessedKeys = unprocessedItems.map((item) => item[tableKey]);
+  const unprocessedKeys = itemsWithSameKeys.map((item) => item[tableKey]);
 
   const filteredItems = itemsToWrite.filter((item) => {
     if (unprocessedKeys.includes(item[tableKey])) {
@@ -117,6 +117,13 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
     return true;
   });
 
+  const filteredItemsStringified = filteredItems.map((item) =>
+    JSON.stringify(item),
+  );
+
+  const unprocessedItems = itemsToWrite.filter(
+    (item) => !filteredItemsStringified.includes(JSON.stringify(item)),
+  );
   const currentBatchToWrite: DynamoDB.WriteRequest[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const itemToWrite of filteredItems) {

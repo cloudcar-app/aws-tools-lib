@@ -4,7 +4,6 @@ import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 
-// eslint-disable-next-line import/prefer-default-export
 export const refreshTokens = async (authParams: AuthParams) => {
   const {
     CognitoClientId: cognitoClientId,

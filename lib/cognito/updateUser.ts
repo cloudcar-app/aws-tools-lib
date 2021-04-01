@@ -1,11 +1,9 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { cognitoClient } from './utils/cognitoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
+import { UpdateUserParams } from './types';
 
-export const updateUser = async (
-  params: CognitoIdentityServiceProvider.Types.UpdateUserAttributesRequest,
-) => {
+export const updateUser = async (params: UpdateUserParams) => {
   const { AccessToken, UserAttributes } = params;
   if (AccessToken === undefined || !AccessToken) {
     throw new CloudcarError({

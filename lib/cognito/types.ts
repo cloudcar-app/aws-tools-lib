@@ -50,3 +50,24 @@ export interface CognitoUser {
   username?: string;
   enabled?: boolean;
 }
+
+export interface AttributeType {
+  Name: string;
+  Value?: string;
+}
+
+export interface AdminUpdateUserParams {
+  Username: string;
+  UserPoolId: string;
+  UserAttributes: AttributeType[];
+}
+
+export interface UpdateUserParams {
+  AccessToken: string;
+  UserAttributes: AttributeType[];
+}
+
+export interface GetUserParams {
+  attributesToGet: string[];
+  AccessToken: string;
+}

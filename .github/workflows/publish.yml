@@ -1,27 +1,33 @@
-name: Publish
+name: Publish to npm Registry
+
 on:
-  release:
-    # Only use the types keyword to narrow down the activity types that will trigger your workflow.
-    types: [published]
+  push
 
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-      - name: Update package version and setup git
-        run: |
-          git config user.name "Actions User"
-          git config user.email noreply@github.com
-          npm version ${GITHUB_REF:10}
+      - uses: actions/checkout@v1
+        if: github.event.pull_request.merged
+        with:
+          ref: refs/heads/master
       - uses: actions/setup-node@master
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
           scope: '@cloudcar-app'
-      - run: npm ci
+      - name: Update package version and setup git
+        run: |
+          git config user.name $GITHUB_ACTOR
+          git config user.email gh-actions-${GITHUB_ACTOR}@github.com
+      - name: NPM install and set version
+      - run: |
+         npm install
+         npm version patch --force -m "Version %s"
       - run: npm publish
-
+      - name: Push to master
+      - run: |
+          git remote add gh-origin https://${GITHUB_ACTOR}:${PACKAGES_ACCESS_TOKEN}@github.com/cloudcar-app/${REPOSITORY_NAME}.git
+          git push gh-origin HEAD:master --tags
         env:
           NODE_AUTH_TOKEN: ${{secrets.PACKAGES_ACCESS_TOKEN}}

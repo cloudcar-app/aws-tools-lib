@@ -3,7 +3,7 @@ interface SendEmailSESparams {
   to: string[];
   subject: string;
   text: string;
-  htmlTemplate: string;
+  htmlTemplate?: string;
   templateData?: string;
 }
 

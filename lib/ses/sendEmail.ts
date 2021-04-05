@@ -41,7 +41,7 @@ export const sendEmail = async (params: SendEmailSESparams) => {
     });
   }
 
-  if (templateData) {
+  if (htmlTemplate && templateData) {
     htmlTemplate = formatHtml(htmlTemplate, templateData);
   }
 

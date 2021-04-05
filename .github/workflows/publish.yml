@@ -9,14 +9,19 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@master
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@cloudcar-app'
       - name: Update package version and setup git
         run: |
           git config user.name $GITHUB_ACTOR
           git config user.email gh-actions-${GITHUB_ACTOR}@github.com
-          npm config set //npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN
+          echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > .npmrc
+          echo "@cloudcar-app=https://npm.pkg.github.com/" >> .npmrc
       - run: |
-         npm version patch --force -m "Version %s"
          npm install
+         npm version patch --force -m "Version %s"
       - run: npm publish
       - run: |
           git remote add gh-origin https://${GITHUB_ACTOR}:${PACKAGES_ACCESS_TOKEN}@github.com/cloudcar-app/${REPOSITORY_NAME}.git

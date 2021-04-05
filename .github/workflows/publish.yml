@@ -28,7 +28,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.PACKAGES_ACCESS_TOKEN}}
       - run: |
-          git remote add gh-origin https://${GITHUB_ACTOR}:${PACKAGES_ACCESS_TOKEN}@github.com/cloudcar-app/${REPOSITORY_NAME}.git
+          git remote add gh-origin https://${GITHUB_ACTOR}:${PACKAGES_ACCESS_TOKEN}@github.com/cloudcar-app/aws-tools-lib.git
           git push gh-origin HEAD:master --tags
         env:
           NODE_AUTH_TOKEN: ${{secrets.PACKAGES_ACCESS_TOKEN}}

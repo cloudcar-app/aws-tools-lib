@@ -23,6 +23,8 @@
         "./tests/**/*.ts"
     ],
     "exclude": [
+        "./.github",
         "./node_modules",
+        "./.vscode"
     ]
 }

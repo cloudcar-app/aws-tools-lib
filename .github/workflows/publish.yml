@@ -9,10 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@master
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-          scope: '@cloudcar-app'
       - name: Update package version and setup git
         run: |
           git config user.name $GITHUB_ACTOR

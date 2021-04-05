@@ -20,12 +20,10 @@ jobs:
         run: |
           git config user.name $GITHUB_ACTOR
           git config user.email gh-actions-${GITHUB_ACTOR}@github.com
-      - name: NPM install and set version
       - run: |
          npm install
          npm version patch --force -m "Version %s"
       - run: npm publish
-      - name: Push to master
       - run: |
           git remote add gh-origin https://${GITHUB_ACTOR}:${PACKAGES_ACCESS_TOKEN}@github.com/cloudcar-app/${REPOSITORY_NAME}.git
           git push gh-origin HEAD:master --tags

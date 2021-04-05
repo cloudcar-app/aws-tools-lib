@@ -17,14 +17,21 @@ jobs:
         run: |
           git config user.name $GITHUB_ACTOR
           git config user.email gh-actions-${GITHUB_ACTOR}@github.com
-          echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > .npmrc
-          echo "@cloudcar-app=https://npm.pkg.github.com/" >> .npmrc
       - run: |
          npm install
          npm version patch --force -m "Version %s"
+      - name: Authenticate with the GitHub Package Registry
+        run:
+          echo "//npm.pkg.github.com:_authToken=${{ secrets.PACKAGES_ACCESS_TOKEN }}" >
+          ~/.npmrc
       - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.PACKAGES_ACCESS_TOKEN}}
       - run: |
           git remote add gh-origin https://${GITHUB_ACTOR}:${PACKAGES_ACCESS_TOKEN}@github.com/cloudcar-app/${REPOSITORY_NAME}.git
           git push gh-origin HEAD:master --tags
         env:
           NODE_AUTH_TOKEN: ${{secrets.PACKAGES_ACCESS_TOKEN}}
+
+
+

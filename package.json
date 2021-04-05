@@ -58,6 +58,6 @@
     "uuid": "^8.3.2"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/cloudcar-app"
+    "registry": "https://npm.pkg.github.com/"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@cloudcar-app/aws-tools-lib",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "description": "This is a library to help on the development for cloud car",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -58,6 +58,6 @@
     "uuid": "^8.3.2"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/cloudcar-app"
+    "registry": "https://npm.pkg.github.com/"
   }
 }

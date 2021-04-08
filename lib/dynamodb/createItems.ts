@@ -39,7 +39,9 @@ const batchWrite = async (
   if (areUnprocessedItems(result) && result.UnprocessedItems !== undefined) {
     return result.UnprocessedItems[tablename].map(
       (request) =>
-        request.PutRequest?.Item as { [key: string]: string | number },
+        request.PutRequest?.Item as {
+          [key: string]: string | number | boolean;
+        },
     );
   }
   return [];
@@ -49,7 +51,7 @@ const batchWrite = async (
  * scan the rows to see if any have the same key as any of the keys of the objects to write. returns a list with the objects that will not be written because they have the same key as some value in the list.
  */
 const getItemsWithSameKeyValue = async (
-  itemsToWrite: { [key: string]: string | number }[],
+  itemsToWrite: { [key: string]: string | number | boolean }[],
   tableKey: string,
   tableName: string,
 ) => {

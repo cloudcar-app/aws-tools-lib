@@ -37,6 +37,7 @@ interface DeleteDynamoParams {
 }
 
 interface UpdateDynamoParams {
+  ConditionExpression?: string;
   TableName?: string;
   Key?: object;
   Item: object;

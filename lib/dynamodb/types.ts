@@ -12,7 +12,7 @@ interface PutDynamoParams {
 }
 
 interface BatchWriteDynamoParams {
-  itemsToWrite: { [key: string]: string | number }[];
+  itemsToWrite: { [key: string]: string | number | boolean }[];
   tableName: string | undefined;
   tableKey: string;
 }

@@ -15,16 +15,16 @@ jobs:
           scope: '@cloudcar-app'
       - name: Configure Git
         run: |
-          git config user.email "iam@jamesiv.es"
-          git config user.name "James Ives"
-      - run: |
-         npm install
-         npm version patch --force -m "Version %s"
-         git push
+          git config user.email "pdecarcer@abstract.cl"
+          git config user.name "Pablo de Carcer"
       - name: Authenticate with the GitHub Package Registry
         run:
           echo "//npm.pkg.github.com:_authToken=${{ secrets.PACKAGES_ACCESS_TOKEN }}" >
           ~/.npmrc
+      - run: |
+         npm install
+         npm version patch --force -m "Version %s"
+         git push
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.PACKAGES_ACCESS_TOKEN}}

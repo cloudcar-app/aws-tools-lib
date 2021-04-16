@@ -10,8 +10,8 @@ import formatHtml from './utils/format-html';
  */
 export const sendEmail = async (params: SendEmailSESparams) => {
   const { to, from, subject, text, templateData } = params;
+
   let { htmlTemplate } = params;
-  let body;
 
   if (to === undefined) {
     throw new CloudcarError({
@@ -34,18 +34,15 @@ export const sendEmail = async (params: SendEmailSESparams) => {
     });
   }
 
-  if (htmlTemplate && templateData) {
-    htmlTemplate = formatHtml(htmlTemplate, templateData);
+  if (text === undefined) {
+    throw new CloudcarError({
+      name: MessageError.sendEmail.name,
+      message: MessageError.sendEmail.messages.text,
+    });
   }
 
-  if (!htmlTemplate) {
-    body = {
-      Text: { Data: text },
-    };
-  } else {
-    body = {
-      Html: { Data: htmlTemplate },
-    };
+  if (htmlTemplate && templateData) {
+    htmlTemplate = formatHtml(htmlTemplate, templateData);
   }
 
   const mailParams = {
@@ -53,7 +50,10 @@ export const sendEmail = async (params: SendEmailSESparams) => {
       ToAddresses: to,
     },
     Message: {
-      Body: body,
+      Body: {
+        Text: { Data: text },
+        Html: { Data: htmlTemplate },
+      },
       Subject: { Data: subject },
     },
     Source: from,

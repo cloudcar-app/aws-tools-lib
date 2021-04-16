@@ -9,7 +9,7 @@ import { documentClient } from './utils/dynamoClient';
 export const updateItem = async (
   params: UpdateDynamoParams,
 ): Promise<Object> => {
-  const { TableName, Item, Key } = params;
+  const { TableName, Item, Key, ConditionExpression } = params;
 
   const expression = generateUpdateQuery(Item);
 
@@ -28,6 +28,7 @@ export const updateItem = async (
   }
 
   const parsedParams = {
+    ConditionExpression,
     TableName,
     Key,
     ...expression,

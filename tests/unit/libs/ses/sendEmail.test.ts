@@ -42,19 +42,6 @@ describe('SES: send email', () => {
     }
   });
 
-  it('[ERROR] should return error when text is undefined', async () => {
-    try {
-      const sendEmailParams = SendEmailSESParamsFactory({
-        text: undefined,
-      });
-      await sendEmail(sendEmailParams);
-      throw new Error('should have throw an error');
-    } catch (error) {
-      expect(error.name).to.equal(MessageError.sendEmail.name);
-      expect(error.message).to.equal(MessageError.sendEmail.messages.text);
-    }
-  });
-
   it('[ERROR] should return error when sender is undefined', async () => {
     try {
       const sendEmailParams = SendEmailSESParamsFactory({

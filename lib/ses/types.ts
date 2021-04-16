@@ -2,9 +2,9 @@ interface SendEmailSESparams {
   from: string;
   to: string[];
   subject: string;
-  text?: string;
+  text: string;
   htmlTemplate?: string;
-  templateData?: object;
+  templateData?: string;
 }
 
 interface SendEmailTemplatedSESparams {

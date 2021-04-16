@@ -1,13 +1,17 @@
 name: Publish to npm Registry
 
 on:
-  push
+  pull_request:
+    types: [closed]
 
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+        if: github.event.pull_request.merged
+        with:
+          ref: refs/heads/master
       - uses: actions/setup-node@master
         with:
           node-version: 12

@@ -12,6 +12,7 @@ export const sendEmail = async (params: SendEmailSESparams) => {
   const { to, from, subject, text, templateData } = params;
 
   let { htmlTemplate } = params;
+  let body;
 
   if (to === undefined) {
     throw new CloudcarError({
@@ -45,15 +46,22 @@ export const sendEmail = async (params: SendEmailSESparams) => {
     htmlTemplate = formatHtml(htmlTemplate, templateData);
   }
 
+  if (!htmlTemplate) {
+    body = {
+      Text: { Data: text },
+    };
+  } else {
+    body = {
+      Html: { Data: htmlTemplate },
+    };
+  }
+
   const mailParams = {
     Destination: {
       ToAddresses: to,
     },
     Message: {
-      Body: {
-        Text: { Data: text },
-        Html: { Data: htmlTemplate },
-      },
+      Body: body,
       Subject: { Data: subject },
     },
     Source: from,

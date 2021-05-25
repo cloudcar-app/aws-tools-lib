@@ -3,7 +3,7 @@ import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { ScanDynamoParams } from './types';
-import generateScanExpression from './utils/generate-scan-expression';
+import { generateScanExpression } from './utils/generate-scan-expression';
 
 import { documentClient } from './utils/dynamoClient';
 

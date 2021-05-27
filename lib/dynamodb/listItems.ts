@@ -23,7 +23,7 @@ export const listItems = async (
     });
   }
 
-  let expression: ConditionExpressionParams;
+  let optionalAttributesExpression: ConditionExpressionParams;
   let requiredAttributesExpression: ConditionExpressionParams;
   let filterExpression: ConditionExpressionParams = {};
 
@@ -32,7 +32,7 @@ export const listItems = async (
     RequiredAttributes &&
     !_.isEmpty(RequiredAttributes)
   ) {
-    expression = generateScanExpression(
+    optionalAttributesExpression = generateScanExpression(
       Attributes,
       ValidOperators.contains,
       ValidOperators.or,
@@ -44,24 +44,24 @@ export const listItems = async (
     );
     const conditionExpressionParams = {
       operator: ValidOperators.and,
-      expressionArguments: [
+      optionalAttributesExpressionArguments: [
         requiredAttributesExpression.FilterExpression,
-        expression.FilterExpression,
+        optionalAttributesExpression.FilterExpression,
       ],
     };
     filterExpression = {
       FilterExpression: generateConditionExpression(conditionExpressionParams),
       ExpressionAttributeNames: {
         ...requiredAttributesExpression.ExpressionAttributeNames,
-        ...expression.ExpressionAttributeNames,
+        ...optionalAttributesExpression.ExpressionAttributeNames,
       },
       ExpressionAttributeValues: {
         ...requiredAttributesExpression.ExpressionAttributeValues,
-        ...expression.ExpressionAttributeValues,
+        ...optionalAttributesExpression.ExpressionAttributeValues,
       },
     };
   } else if (!_.isEmpty(Attributes) && !RequiredAttributes) {
-    expression = generateScanExpression(
+    optionalAttributesExpression = generateScanExpression(
       Attributes,
       ValidOperators.contains,
       ValidOperators.or,

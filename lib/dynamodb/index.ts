@@ -7,3 +7,6 @@ export { listItems } from './listItems';
 export { updateItem } from './updateItem';
 export { emptyTable } from './utils/test-utils';
 export { queryItems } from './queryItems';
+export { paginateQuery } from './paginateQuery';
+export { paginateScan } from './paginateScan';
+export { generateScanExpression } from './utils/generate-scan-expression';

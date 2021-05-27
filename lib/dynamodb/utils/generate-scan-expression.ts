@@ -1,7 +1,5 @@
-import generateConditionExpression, {
-  ValidOperators,
-  ValidOperatorsType,
-} from './generate-condition-expression';
+import { ValidOperatorsType, ValidOperators } from '../types';
+import generateConditionExpression from './generate-condition-expression';
 
 const generateScanExpression = (
   Item: Object,
@@ -21,8 +19,7 @@ const generateScanExpression = (
           conditionExpressionOperator === ValidOperators.beginsWith)
           ? ValidOperators.equals
           : conditionExpressionOperator,
-      firstArgument: `#${key}`,
-      secondArgument: `:${key}`,
+      expressionArguments: [`#${key}`, `:${key}`],
     };
     expression.FilterExpression += `${generateConditionExpression(
       conditionExpressionParams,

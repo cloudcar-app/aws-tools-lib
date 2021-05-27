@@ -1,43 +1,20 @@
 import CloudcarError from '../../errors/index';
+import {
+  ComparisonOperators,
+  FunctionOperators,
+  SimpleOperators,
+  ValidOperatorsType,
+} from '../types';
 import MessageError from './message.errors';
-
-enum ComparisonOperators {
-  and = 'AND',
-  or = 'OR',
-  equals = '=',
-  notEquals = '<>',
-  lessThan = '<',
-  lessThanEquals = '<=',
-  greaterThan = '>',
-  greaterThanEquals = '>=',
-}
-
-enum FunctionOperators {
-  beginsWith = 'begins_with',
-  contains = 'contains',
-}
-
-enum SimpleOperators {
-  not = 'NOT',
-}
-
-export const ValidOperators = {
-  ...ComparisonOperators,
-  ...FunctionOperators,
-  ...SimpleOperators,
-};
-export type ValidOperatorsType =
-  | ComparisonOperators
-  | FunctionOperators
-  | SimpleOperators;
 
 export interface ExpressionParams {
   operator: ValidOperatorsType;
+  expressionArguments: any[];
 }
 
 const generateComparatorExpression = (params: ExpressionParams) => {
-  const { operator, ...args } = params;
-  if (Object.entries(args).length !== 2) {
+  const { operator, expressionArguments } = params;
+  if (expressionArguments.length !== 2) {
     throw new CloudcarError({
       message:
         MessageError.generateConditionExpression.messages
@@ -45,12 +22,12 @@ const generateComparatorExpression = (params: ExpressionParams) => {
       name: MessageError.generateConditionExpression.name,
     });
   }
-  return `(${Object.values(args)[0]}) ${operator} (${Object.values(args)[1]})`;
+  return `(${expressionArguments[0]}) ${operator} (${expressionArguments[1]})`;
 };
 
 const generateSimpleExpression = (params: ExpressionParams) => {
-  const { operator, ...args } = params;
-  if (Object.entries(args).length !== 1) {
+  const { operator, expressionArguments } = params;
+  if (expressionArguments.length !== 1) {
     throw new CloudcarError({
       message:
         MessageError.generateConditionExpression.messages
@@ -58,14 +35,14 @@ const generateSimpleExpression = (params: ExpressionParams) => {
       name: MessageError.generateConditionExpression.name,
     });
   }
-  return `${operator} (${Object.values(args)[0]})`;
+  return `${operator} (${expressionArguments[0]})`;
 };
 
 const generateFunctionExpression = (params: ExpressionParams) => {
-  const { operator, ...args } = params;
+  const { operator, expressionArguments } = params;
   let parsedArgs = '';
-  if (Object.entries(args).length > 0) {
-    Object.values(args).forEach((arg) => {
+  if (expressionArguments.length > 0) {
+    expressionArguments.forEach((arg) => {
       parsedArgs += `${arg},`;
     });
     parsedArgs = parsedArgs.slice(0, -1);

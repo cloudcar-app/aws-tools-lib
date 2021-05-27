@@ -2,12 +2,14 @@ import * as _ from 'lodash';
 import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
-import { ScanDynamoParams, ConditionExpressionParams } from './types';
+import {
+  ScanDynamoParams,
+  ConditionExpressionParams,
+  ValidOperators,
+} from './types';
 import generateScanExpression from './utils/generate-scan-expression';
 import { documentClient } from './utils/dynamoClient';
-import generateConditionExpression, {
-  ValidOperators,
-} from './utils/generate-condition-expression';
+import generateConditionExpression from './utils/generate-condition-expression';
 
 export const listItems = async (
   params: ScanDynamoParams,
@@ -42,8 +44,10 @@ export const listItems = async (
     );
     const conditionExpressionParams = {
       operator: ValidOperators.and,
-      leftArgument: requiredAttributesExpression.FilterExpression,
-      rightArgument: expression.FilterExpression,
+      expressionArguments: [
+        requiredAttributesExpression.FilterExpression,
+        expression.FilterExpression,
+      ],
     };
     filterExpression = {
       FilterExpression: generateConditionExpression(conditionExpressionParams),

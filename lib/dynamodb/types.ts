@@ -46,6 +46,13 @@ interface UpdateDynamoParams {
 interface ScanDynamoParams {
   TableName?: string;
   Attributes: object;
+  RequiredAttributes?: object;
+}
+
+interface ConditionExpressionParams {
+  FilterExpression?: string;
+  ExpressionAttributeNames?: {};
+  ExpressionAttributeValues?: {};
 }
 
 export {
@@ -55,4 +62,5 @@ export {
   UpdateDynamoParams,
   ScanDynamoParams,
   DeleteDynamoParams,
+  ConditionExpressionParams,
 };

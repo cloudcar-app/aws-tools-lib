@@ -1,4 +1,4 @@
-const generateScanExpression = (Item: Object) => {
+export const generateScanExpression = (Item: Object) => {
   const expression = {
     FilterExpression: '',
     ExpressionAttributeNames: {},

@@ -1,17 +1,47 @@
 /* eslint-disable no-await-in-loop */
-import { BatchUpdateDynamoParams } from './types';
+import { DynamoDB } from 'aws-sdk';
+import { TransactionWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
+import CloudcarError from '../errors/index';
+import MessageError from './utils/message.errors';
 
-export const batchUpdate = async (params: BatchUpdateDynamoParams) => {
-  const { TransactItems } = params;
+export const updateItems = async (params: TransactionWriteDynamoParams) => {
+  const { TransactItems, TableName, ConditionExpression } = params;
 
-  const currentBatchToUpdate: any = {
+  if (!ConditionExpression) {
+    throw new CloudcarError({
+      message: MessageError.updateItems.messages.conditionExpression,
+      name: MessageError.updateItems.name,
+    });
+  }
+
+  if (!TableName) {
+    throw new CloudcarError({
+      message: MessageError.updateItems.messages.tableName,
+      name: MessageError.updateItems.name,
+    });
+  }
+
+  TransactItems.forEach((items) => {
+    if (!items.Update) {
+      throw new CloudcarError({
+        message: MessageError.updateItems.messages.update,
+        name: MessageError.updateItems.name,
+      });
+    }
+  });
+
+  const currentBatchToUpdate: DynamoDB.TransactWriteItemsInput = {
     TransactItems: [],
   };
 
   // eslint-disable-next-line no-restricted-syntax
   for (const itemToUpdate of TransactItems) {
-    currentBatchToUpdate.TransactItems.push(itemToUpdate);
+    itemToUpdate.Update!.TableName = TableName;
+    itemToUpdate.Update!.ConditionExpression = ConditionExpression;
+    currentBatchToUpdate.TransactItems.push(
+      itemToUpdate as DynamoDB.TransactWriteItem,
+    );
 
     if (currentBatchToUpdate.TransactItems.length % 25 === 0) {
       await documentClient.transactWrite(currentBatchToUpdate).promise();

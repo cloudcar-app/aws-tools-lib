@@ -48,23 +48,29 @@ interface ScanDynamoParams {
   Attributes: object;
 }
 
-interface UpdateItem {
-  Update: {
-    Key: Object;
-    UpdateExpression: string;
-    TableName: string;
-    ExpressionAttributeValues?: Object;
-  };
+interface ItemParams {
+  Key: Object;
+  UpdateExpression?: string;
+  ConditionExpression?: string;
+  TableName?: string;
+  ExpressionAttributeValues?: Object;
 }
 
-interface BatchUpdateDynamoParams {
-  TransactItems: UpdateItem[];
+interface TransactionItems {
+  Update?: ItemParams;
+  Delete?: ItemParams;
+}
+
+interface TransactionWriteDynamoParams {
+  ConditionExpression?: string;
+  TableName?: string;
+  TransactItems: TransactionItems[];
 }
 
 export {
   QueryDynamoParams,
   PutDynamoParams,
-  BatchUpdateDynamoParams,
+  TransactionWriteDynamoParams,
   BatchWriteDynamoParams,
   UpdateDynamoParams,
   ScanDynamoParams,

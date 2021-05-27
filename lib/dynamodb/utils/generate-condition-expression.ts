@@ -9,12 +9,12 @@ import MessageError from './message.errors';
 
 export interface ExpressionParams {
   operator: ValidOperatorsType;
-  expressionArguments: any[];
+  expressionArguments?: any[];
 }
 
 const generateComparatorExpression = (params: ExpressionParams) => {
   const { operator, expressionArguments } = params;
-  if (expressionArguments.length !== 2) {
+  if (!expressionArguments || expressionArguments.length !== 2) {
     throw new CloudcarError({
       message:
         MessageError.generateConditionExpression.messages
@@ -27,7 +27,7 @@ const generateComparatorExpression = (params: ExpressionParams) => {
 
 const generateSimpleExpression = (params: ExpressionParams) => {
   const { operator, expressionArguments } = params;
-  if (expressionArguments.length !== 1) {
+  if (!expressionArguments || expressionArguments.length !== 1) {
     throw new CloudcarError({
       message:
         MessageError.generateConditionExpression.messages
@@ -41,7 +41,7 @@ const generateSimpleExpression = (params: ExpressionParams) => {
 const generateFunctionExpression = (params: ExpressionParams) => {
   const { operator, expressionArguments } = params;
   let parsedArgs = '';
-  if (expressionArguments.length > 0) {
+  if (expressionArguments && expressionArguments.length > 0) {
     expressionArguments.forEach((arg) => {
       parsedArgs += `${arg},`;
     });

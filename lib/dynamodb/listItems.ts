@@ -44,7 +44,7 @@ export const listItems = async (
     );
     const conditionExpressionParams = {
       operator: ValidOperators.and,
-      optionalAttributesExpressionArguments: [
+      expressionArguments: [
         requiredAttributesExpression.FilterExpression,
         optionalAttributesExpression.FilterExpression,
       ],

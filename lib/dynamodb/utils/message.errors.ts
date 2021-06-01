@@ -63,6 +63,14 @@ const MessageError = {
       tableKey: 'undefined table key',
     },
   },
+  generateConditionExpression: {
+    name: 'DATABASE_SERVICE_CONDITION_EXPRESSION',
+    messages: {
+      invalidFunctionType: 'invalid condition expression type',
+      invalidArgumentsNumber:
+        'invalid number of arguments for condition expression type',
+    },
+  },
 };
 
 export default MessageError;

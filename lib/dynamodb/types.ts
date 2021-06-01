@@ -46,6 +46,7 @@ interface UpdateDynamoParams {
 interface ScanDynamoParams {
   TableName?: string;
   Attributes: object;
+  RequiredAttributes?: object;
 }
 
 interface ItemParams {
@@ -67,6 +68,43 @@ interface TransactionWriteDynamoParams {
   TransactItems: TransactionItems[];
 }
 
+interface ConditionExpressionParams {
+  FilterExpression?: string;
+  ExpressionAttributeNames?: {};
+  ExpressionAttributeValues?: {};
+}
+
+export enum ComparisonOperators {
+  and = 'AND',
+  or = 'OR',
+  equals = '=',
+  notEquals = '<>',
+  lessThan = '<',
+  lessThanEquals = '<=',
+  greaterThan = '>',
+  greaterThanEquals = '>=',
+}
+
+export enum FunctionOperators {
+  beginsWith = 'begins_with',
+  contains = 'contains',
+}
+
+export enum SimpleOperators {
+  not = 'NOT',
+}
+
+export const ValidOperators = {
+  ...ComparisonOperators,
+  ...FunctionOperators,
+  ...SimpleOperators,
+};
+
+export type ValidOperatorsType =
+  | ComparisonOperators
+  | FunctionOperators
+  | SimpleOperators;
+
 export {
   QueryDynamoParams,
   PutDynamoParams,
@@ -75,4 +113,5 @@ export {
   UpdateDynamoParams,
   ScanDynamoParams,
   DeleteDynamoParams,
+  ConditionExpressionParams,
 };

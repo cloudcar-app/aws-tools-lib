@@ -41,6 +41,14 @@ const MessageError = {
       key: 'undefined table key',
     },
   },
+  updateItems: {
+    name: 'DATABASE_SERVICE_UPDATE_ITEMS_ERROR',
+    messages: {
+      tableName: 'undefined table name',
+      update: 'invalid transaction method',
+      conditionExpression: 'undefined condition expression',
+    },
+  },
   listItems: {
     name: 'DATABASE_SERVICE_LIST_ERROR',
     messages: {

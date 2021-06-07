@@ -6,6 +6,7 @@ import {
   UpdateDynamoParams,
   QueryDynamoParams,
   PutDynamoParams,
+  TransactionWriteDynamoParams,
   DeleteDynamoParams,
 } from '../../lib/dynamodb/types';
 
@@ -51,4 +52,40 @@ export const DeleteDynamoParamsFactory = define<DeleteDynamoParams>({
   },
   ReturnValues: 'NONE',
   ConditionExpression: 'some-condition-expression',
+});
+
+export const BatchUpdateDynamoParamsFactory = define<TransactionWriteDynamoParams>({
+  ConditionExpression: 'some-condition-expression',
+  TableName: 'some-table-name',
+  TransactItems: [
+    {
+      Update: {
+        Key: (i: number) => {
+          return {
+            primaryKey: `primary-key-#${i}`,
+            secondaryKey: `secondary-key-#${i}`,
+          };
+        },
+        UpdateExpression: 'some-update-expression',
+      },
+    },
+  ],
+});
+
+export const WrongBatchUpdateDynamoParamsFactory = define<TransactionWriteDynamoParams>({
+  ConditionExpression: 'some-condition-expression',
+  TableName: 'some-table-name',
+  TransactItems: [
+    {
+      Delete: {
+        Key: (i: number) => {
+          return {
+            primaryKey: `primary-key-#${i}`,
+            secondaryKey: `secondary-key-#${i}`,
+          };
+        },
+        UpdateExpression: 'some-update-expression',
+      },
+    },
+  ],
 });

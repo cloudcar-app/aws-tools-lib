@@ -49,6 +49,25 @@ interface ScanDynamoParams {
   RequiredAttributes?: object;
 }
 
+interface ItemParams {
+  Key: Object;
+  UpdateExpression?: string;
+  ConditionExpression?: string;
+  TableName?: string;
+  ExpressionAttributeValues?: Object;
+}
+
+interface TransactionItems {
+  Update?: ItemParams;
+  Delete?: ItemParams;
+}
+
+interface TransactionWriteDynamoParams {
+  ConditionExpression?: string;
+  TableName?: string;
+  TransactItems: TransactionItems[];
+}
+
 interface ConditionExpressionParams {
   FilterExpression?: string;
   ExpressionAttributeNames?: {};
@@ -89,6 +108,7 @@ export type ValidOperatorsType =
 export {
   QueryDynamoParams,
   PutDynamoParams,
+  TransactionWriteDynamoParams,
   BatchWriteDynamoParams,
   UpdateDynamoParams,
   ScanDynamoParams,

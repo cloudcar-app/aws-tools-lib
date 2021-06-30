@@ -4,16 +4,10 @@ import { TransactionWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
+import generateUpdateQuery from './utils/generate-update-query';
 
 export const updateItems = async (params: TransactionWriteDynamoParams) => {
-  const { TransactItems, TableName, ConditionExpression } = params;
-
-  if (!ConditionExpression) {
-    throw new CloudcarError({
-      message: MessageError.updateItems.messages.conditionExpression,
-      name: MessageError.updateItems.name,
-    });
-  }
+  const { TransactItems, TableName } = params;
 
   if (!TableName) {
     throw new CloudcarError({
@@ -36,9 +30,20 @@ export const updateItems = async (params: TransactionWriteDynamoParams) => {
   };
 
   // eslint-disable-next-line no-restricted-syntax
-  for (const itemToUpdate of TransactItems) {
-    itemToUpdate.Update!.TableName = TableName;
-    itemToUpdate.Update!.ConditionExpression = ConditionExpression;
+  for (const transactItem of TransactItems) {
+    const itemToUpdate = { ...transactItem };
+    const { item, ...updateParams } = itemToUpdate.Update!;
+    itemToUpdate.Update = {
+      ...updateParams,
+      TableName,
+    };
+    if (item) {
+      const expression = generateUpdateQuery(item);
+      itemToUpdate.Update = {
+        ...itemToUpdate.Update,
+        ...expression,
+      };
+    }
     currentBatchToUpdate.TransactItems.push(
       itemToUpdate as DynamoDB.TransactWriteItem,
     );

@@ -62,6 +62,7 @@ interface TransactionItems {
 }
 
 interface TransactionWriteDynamoParams {
+  ConditionExpression?: string;
   TableName?: string;
   TransactItems: TransactionItems[];
 }

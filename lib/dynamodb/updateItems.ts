@@ -7,7 +7,7 @@ import MessageError from './utils/message.errors';
 import generateUpdateQuery from './utils/generate-update-query';
 
 export const updateItems = async (params: TransactionWriteDynamoParams) => {
-  const { TransactItems, TableName } = params;
+  const { TransactItems, TableName, ConditionExpression } = params;
 
   if (!TableName) {
     throw new CloudcarError({
@@ -37,6 +37,7 @@ export const updateItems = async (params: TransactionWriteDynamoParams) => {
       ...updateParams,
       TableName,
     };
+
     if (item) {
       const expression = generateUpdateQuery(item);
       itemToUpdate.Update = {
@@ -44,6 +45,11 @@ export const updateItems = async (params: TransactionWriteDynamoParams) => {
         ...expression,
       };
     }
+
+    if (ConditionExpression) {
+      itemToUpdate.Update.ConditionExpression = ConditionExpression;
+    }
+
     currentBatchToUpdate.TransactItems.push(
       itemToUpdate as DynamoDB.TransactWriteItem,
     );

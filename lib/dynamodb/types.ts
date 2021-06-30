@@ -50,11 +50,10 @@ interface ScanDynamoParams {
 }
 
 interface ItemParams {
-  Key: Object;
-  UpdateExpression?: string;
+  Key?: Object;
   ConditionExpression?: string;
+  item?: Object;
   TableName?: string;
-  ExpressionAttributeValues?: Object;
 }
 
 interface TransactionItems {

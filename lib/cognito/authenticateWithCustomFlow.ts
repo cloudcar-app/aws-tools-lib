@@ -44,6 +44,9 @@ export const authenticateWithCustomFlow = async (params: AuthParams) => {
         USERNAME: username,
         ANSWER: Answer,
       },
+      ClientMetadata: {
+        Answer,
+      },
     };
     const session = await cognitoClient
       .respondToAuthChallenge(responseChallenge)

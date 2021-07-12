@@ -1,14 +1,11 @@
-export interface UploadS3Params {
-  Bucket?: string;
-  Key?: string;
-  Type?: string;
-  Body?: Buffer | Uint8Array | string;
-  ACL?: ACL;
-}
-
 export interface DownloadS3Params {
   Bucket?: string;
   Key?: string;
+}
+export interface ParamsPreSignedUrl {
+  Bucket: string;
+  Key: string;
+  Expires: number;
 }
 
 export enum ACL {

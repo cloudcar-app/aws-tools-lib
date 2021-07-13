@@ -1,10 +1,20 @@
 interface SendEmailSESparams {
   from?: string;
-  to: string[];
+  receiver: string[];
   subject: string;
   text?: string;
   htmlTemplate?: string;
   templateData?: object;
 }
 
-export { SendEmailSESparams };
+interface SendRawEmailSESparams {
+  from?: string;
+  receiver: string;
+  subject: string;
+  text?: string;
+  htmlTemplate?: string;
+  templateData?: object;
+  doc: Buffer;
+  filename: string;
+}
+export { SendEmailSESparams, SendRawEmailSESparams };

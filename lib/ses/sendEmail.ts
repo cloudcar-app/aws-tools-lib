@@ -35,13 +35,6 @@ export const sendEmail = async (params: SendEmailSESparams) => {
     });
   }
 
-  if (text === undefined) {
-    throw new CloudcarError({
-      name: MessageError.sendEmail.name,
-      message: MessageError.sendEmail.messages.text,
-    });
-  }
-
   if (htmlTemplate && templateData) {
     htmlTemplate = formatHtml(htmlTemplate, templateData);
   }

@@ -58,7 +58,7 @@ describe('SES: send email', () => {
   it('[ERROR] should return error when receiver are undefined', async () => {
     try {
       const sendEmailParams = SendEmailSESParamsFactory({
-        to: undefined,
+        receiver: undefined,
       });
       await sendEmail(sendEmailParams);
       throw new Error('should have throw an error');

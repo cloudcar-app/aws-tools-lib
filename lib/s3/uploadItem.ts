@@ -1,5 +1,4 @@
 import { S3 } from 'aws-sdk';
-import { UploadS3Params } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from '../message.errors';
 
@@ -12,7 +11,9 @@ const s3Client = process.env.LOCAL
     })
   : new S3();
 
-export const uploadItem = async (params: UploadS3Params): Promise<Object> => {
+export const uploadItem = async (
+  params: S3.PutObjectRequest,
+): Promise<Object> => {
   const { Bucket, Body } = params;
   if (Bucket === undefined) {
     throw new CloudcarError({
@@ -26,7 +27,7 @@ export const uploadItem = async (params: UploadS3Params): Promise<Object> => {
     });
   }
 
-  const result = await s3Client.upload(params as S3.PutObjectRequest).promise();
+  const result = await s3Client.upload(params).promise();
 
   if (result.ETag === undefined || result.Location === undefined) {
     throw new CloudcarError({

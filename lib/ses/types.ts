@@ -1,6 +1,6 @@
 interface SendEmailSESparams {
   from?: string;
-  to: string[];
+  receiver: string[];
   subject: string;
   text?: string;
   htmlTemplate?: string;
@@ -9,7 +9,7 @@ interface SendEmailSESparams {
 
 interface SendRawEmailSESparams {
   from?: string;
-  to: string;
+  receiver: string;
   subject: string;
   text?: string;
   htmlTemplate?: string;

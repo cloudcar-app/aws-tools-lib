@@ -3,9 +3,18 @@ const MessageError = {
     name: 'EMAIL_SERVICE_SEND_EMAIL_ERROR',
     messages: {
       from: 'undefined email sender',
-      to: 'undefined email receiver',
+      receiver: 'undefined email receiver',
       subject: 'undefined email subject',
-      text: 'undefined email text',
+    },
+  },
+  sendRawEmail: {
+    name: 'EMAIL_SERVICE_SEND__RAW_EMAIL_ERROR',
+    messages: {
+      from: 'undefined email sender',
+      receiver: 'undefined email receiver',
+      subject: 'undefined email subject',
+      file: 'undefined attachment file name',
+      doc: 'undefined doc buffer',
     },
   },
 };

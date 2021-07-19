@@ -2,11 +2,9 @@
 /* eslint-disable max-len */
 import { DateTime } from 'luxon';
 import { DynamoDB } from 'aws-sdk';
-import * as _ from 'lodash';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { BatchWriteDynamoParams } from './types';
-import generateExactScanExpresion from './utils/generate-exact-scan-expression';
 import { documentClient } from './utils/dynamoClient';
 
 /**
@@ -48,40 +46,6 @@ const batchWrite = async (
 };
 
 /**
- * scan the rows to see if any have the same key as any of the keys of the objects to write. returns a list with the objects that will not be written because they have the same key as some value in the list.
- */
-const getItemsWithSameKeyValue = async (
-  itemsToWrite: { [key: string]: string | number | boolean }[],
-  tableKey: string,
-  tableName: string,
-) => {
-  const keyAttributesToFilter = {};
-  itemsToWrite.forEach((item, index) => {
-    keyAttributesToFilter[index] = item.vin;
-  });
-
-  let expression = {};
-
-  if (!_.isEmpty(keyAttributesToFilter)) {
-    expression = generateExactScanExpresion(keyAttributesToFilter, tableKey);
-  }
-
-  const parsedParams = {
-    TableName: tableName,
-    ...expression,
-  };
-
-  const scanResult = await documentClient
-    .scan(parsedParams as DynamoDB.ScanInput)
-    .promise();
-
-  const unprocessedItems =
-    scanResult.Items !== undefined ? scanResult.Items : [];
-
-  return unprocessedItems;
-};
-
-/**
  * receives a list of items to write to dynamo. The writes are grouped by lists of length 25. In case the original list of elements is not a multiple of 25, an independent writing is done outside of the original loop. The function returns an object with the elements that were not processed by the batch write
  */
 export const createItems = async (params: BatchWriteDynamoParams) => {
@@ -105,30 +69,10 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
     });
   }
 
-  const itemsWithSameKeys = await getItemsWithSameKeyValue(
-    itemsToWrite,
-    tableKey,
-    tableName,
-  );
-  const unprocessedKeys = itemsWithSameKeys.map((item) => item[tableKey]);
-
-  const filteredItems = itemsToWrite.filter((item) => {
-    if (unprocessedKeys.includes(item[tableKey])) {
-      return false;
-    }
-    return true;
-  });
-
-  const filteredItemsStringified = filteredItems.map((item) =>
-    JSON.stringify(item),
-  );
-
-  const unprocessedItems = itemsToWrite.filter(
-    (item) => !filteredItemsStringified.includes(JSON.stringify(item)),
-  );
+  const unprocessedItems: DynamoDB.WriteRequest[] = [];
   const currentBatchToWrite: DynamoDB.WriteRequest[] = [];
   // eslint-disable-next-line no-restricted-syntax
-  for (const itemToWrite of filteredItems) {
+  for (const itemToWrite of itemsToWrite) {
     const item = {
       PutRequest: {
         Item: {

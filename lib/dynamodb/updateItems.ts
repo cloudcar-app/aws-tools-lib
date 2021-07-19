@@ -1,10 +1,16 @@
 /* eslint-disable no-await-in-loop */
-import { DynamoDB } from 'aws-sdk';
+import { DynamoDB, Response } from 'aws-sdk';
 import { TransactionWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import generateUpdateQuery from './utils/generate-update-query';
+
+const addErrorToResponse = <D, E>(response: Response<D, E>) => {
+  const cancellationReasons = JSON.parse(response.httpResponse.body.toString())
+    .CancellationReasons;
+  response.error[cancellationReasons] = cancellationReasons;
+};
 
 export const updateItems = async (params: TransactionWriteDynamoParams) => {
   const { TransactItems, TableName, ConditionExpression } = params;
@@ -55,12 +61,24 @@ export const updateItems = async (params: TransactionWriteDynamoParams) => {
     );
 
     if (currentBatchToUpdate.TransactItems.length % 25 === 0) {
-      await documentClient.transactWrite(currentBatchToUpdate).promise();
+      const request = documentClient.transactWrite(currentBatchToUpdate);
+      request.on('extractError', (response) => {
+        if (response.error) {
+          addErrorToResponse(response);
+        }
+      });
+      await request.promise();
       currentBatchToUpdate.TransactItems.length = 0;
     }
   }
 
   if (currentBatchToUpdate.TransactItems.length > 0) {
-    await documentClient.transactWrite(currentBatchToUpdate).promise();
+    const request = documentClient.transactWrite(currentBatchToUpdate);
+    request.on('extractError', (response) => {
+      if (response.error) {
+        addErrorToResponse(response);
+      }
+    });
+    await request.promise();
   }
 };

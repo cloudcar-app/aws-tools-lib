@@ -84,7 +84,7 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
 
     currentBatchToWrite.push(item as DynamoDB.WriteRequest);
 
-    if (currentBatchToWrite.length % 25) {
+    if (currentBatchToWrite.length % 25 === 0) {
       const result = await batchWrite(tableName, currentBatchToWrite);
       if (Object.keys(result).length > 0) unprocessedItems.push(...result);
       currentBatchToWrite.length = 0;

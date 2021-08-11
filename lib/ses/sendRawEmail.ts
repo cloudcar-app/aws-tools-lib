@@ -53,7 +53,6 @@ export const sendRawEmail = async (params: SendRawEmailSESparams) => {
   }
 
   const mailOptions = {
-    ConfigurationSetName: 'templateFailure',
     from,
     subject,
     html: body,

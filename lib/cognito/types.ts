@@ -74,6 +74,6 @@ export interface GetUserParams {
 
 export interface ConfirmUserEmail {
   Username: string;
-  ClientId: string;
+  ClientId?: string;
   ConfirmationCode: string;
 }

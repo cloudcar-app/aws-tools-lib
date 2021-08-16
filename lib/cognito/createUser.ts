@@ -49,11 +49,5 @@ export const createUser = async (params: CreateCognitoUser) => {
   };
 
   const result = await cognitoClient.signUp(data).promise();
-  if (result.UserConfirmed === undefined || result.UserConfirmed === false) {
-    throw new CloudcarError({
-      message: MessageError.createUser.messages.userConfirmed,
-      name: MessageError.createUser.name,
-    });
-  }
   return result;
 };

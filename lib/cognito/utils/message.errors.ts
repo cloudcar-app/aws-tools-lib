@@ -35,6 +35,14 @@ const MessageError = {
       userConfirmed: '"The user wasn\'t confirmed"',
     },
   },
+  confirmUserEmail: {
+    name: 'COGNITO_SERVICE_CONFIRMER_USER_EMAIL_ERROR',
+    messages: {
+      user: 'undefined user',
+      clientId: 'cognito client id is undefined',
+      confirmationCode: '"The user wasn\'t confirmed"',
+    },
+  },
   createPurchaseIntent: {
     name: 'COGNITO_SERVICE_PURCHASE_INTENT_ERROR',
     messages: {

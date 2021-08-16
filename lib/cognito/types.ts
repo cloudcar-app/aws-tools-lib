@@ -71,3 +71,9 @@ export interface GetUserParams {
   attributesToGet: string[];
   AccessToken: string;
 }
+
+export interface ConfirmUserEmail {
+  Username: string;
+  ClientId: string;
+  ConfirmationCode: string;
+}

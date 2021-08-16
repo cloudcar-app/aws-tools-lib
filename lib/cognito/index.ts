@@ -9,3 +9,4 @@ export { enableUser } from './enableUser';
 export { adminUpdateUser } from './adminUpdateUser';
 export { updateUser } from './updateUser';
 export { getUser } from './getUser';
+export { confirmUserEmail } from './confirmUserEmail';

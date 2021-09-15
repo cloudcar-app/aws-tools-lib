@@ -26,6 +26,12 @@ const MessageError = {
       keys: 'undefined keys',
     },
   },
+  statement: {
+    name: 'DATABASE_SERVICE_STATEMENT_ERROR',
+    messages: {
+      query: 'undefined or null query',
+    },
+  },
   getItem: {
     name: 'DATABASE_SERVICE_GET_ERROR',
     messages: {

@@ -17,6 +17,29 @@ interface BatchWriteDynamoParams {
   tableKey: string;
 }
 
+interface BatchGetDynamoParams {
+  /**
+   * The name of the table from which to delete the item.
+   */
+  tableName: string;
+  /**
+   * keys you want to get ej: [
+   * {attributeName:"someId"},
+   * {attributeId: 1}
+   * ]
+   */
+  keys: { [key: string]: string | number | boolean | null }[];
+  /**
+   * In case of table with hash and range primary key
+   */
+  projectionExpression?: string;
+  /**
+   * ConsistentRead - If true, a strongly consistent read is used; if false (the default), an eventually consistent read is used.
+   */
+  ConsistentRead?: true | false;
+  ReturnConsumedCapacity?: 'INDEXES' | 'TOTAL' | 'NONE';
+}
+
 interface DeleteDynamoParams {
   /**
    * The name of the table from which to delete the item.
@@ -113,4 +136,5 @@ export {
   ScanDynamoParams,
   DeleteDynamoParams,
   ConditionExpressionParams,
+  BatchGetDynamoParams,
 };

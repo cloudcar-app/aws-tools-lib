@@ -19,6 +19,13 @@ const MessageError = {
       item: 'undefined item to create',
     },
   },
+  batchGet: {
+    name: 'DATABASE_SERVICE_BATCH_GET_ERROR',
+    messages: {
+      tableName: 'undefined table name',
+      keys: 'undefined keys',
+    },
+  },
   getItem: {
     name: 'DATABASE_SERVICE_GET_ERROR',
     messages: {

@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
 
-const dynamo = process.env.LOCAL
+export const dynamo = process.env.LOCAL
   ? new DynamoDB({ region: 'localhost', endpoint: 'http://localhost:8000' })
   : new DynamoDB({ region: process.env.REGION || 'us-east-1' });
 

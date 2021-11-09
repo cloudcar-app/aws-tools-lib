@@ -26,7 +26,9 @@ const formatHtml = (htmlTemplate: string, templateData: Object) => {
   let formattedHtml = htmlTemplate;
   Object.keys(templateData).forEach((key) => {
     if (typeof templateData[key] === 'string') {
-      formattedHtml = formattedHtml.replace(`{{${key}}}`, templateData[key]);
+      const regexString = `{{${key}}}`;
+      const regex = new RegExp(regexString, 'g');
+      formattedHtml = formattedHtml.replace(regex, templateData[key]);
     }
     if (Array.isArray(templateData[key])) {
       const start = `{{#each ${key}}}`;

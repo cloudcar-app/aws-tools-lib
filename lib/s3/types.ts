@@ -2,6 +2,12 @@ export interface DownloadS3Params {
   Bucket?: string;
   Key?: string;
 }
+
+export interface DeleteS3Params {
+  Bucket: string;
+  Key: string;
+}
+
 export interface ParamsPreSignedUrl {
   Bucket: string;
   Key: string;

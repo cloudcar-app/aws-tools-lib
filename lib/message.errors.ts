@@ -16,6 +16,14 @@ const MessageError = {
       notFoundItem: 'given params did not found items',
     },
   },
+  deleteItem: {
+    name: 'STORAGE_SERVICE_DELETE_ERROR',
+    messages: {
+      bucketName: 'undefined bucket name',
+      key: 'undefined body',
+      notFoundItem: 'given params did not found items',
+    },
+  },
 };
 
 export default MessageError;

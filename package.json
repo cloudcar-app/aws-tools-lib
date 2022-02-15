@@ -1,6 +1,6 @@
 {
   "name": "@cloudcar-app/aws-tools-lib",
-  "version": "1.0.88",
+  "version": "1.0.89",
   "description": "This is a library to help on the development for cloud car",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,9 +24,9 @@
     "url": "https://github.com/cloudcar-app/aws-tools-lib/issues"
   },
   "homepage": "https://github.com/cloudcar-app/aws-tools-lib#readme",
-  "engines" : { 
-    "npm" : ">=8.0.0",
-    "node" : ">=14.0.0"
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": ">=14.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.14",

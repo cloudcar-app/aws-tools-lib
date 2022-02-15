@@ -24,6 +24,10 @@
     "url": "https://github.com/cloudcar-app/aws-tools-lib/issues"
   },
   "homepage": "https://github.com/cloudcar-app/aws-tools-lib#readme",
+  "engines" : { 
+    "npm" : ">=8.0.0",
+    "node" : ">=14.0.0"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/lodash": "^4.14.168",

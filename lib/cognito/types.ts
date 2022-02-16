@@ -18,6 +18,7 @@ interface User {
   password?: string;
   name: string;
   email: string;
+  username?: string;
   customAttribute?: CustomAttribute[];
 }
 

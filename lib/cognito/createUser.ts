@@ -40,7 +40,7 @@ export const createUser = async (params: CreateCognitoUser) => {
 
   const data: CognitoIdentityServiceProvider.Types.SignUpRequest = {
     Password: user.password ? user.password : (uuidV1() as string),
-    Username: user.name,
+    Username: user.username ? user.username : user.name,
     UserAttributes: userAttributes,
     ClientId: CognitoClientId,
     ClientMetadata: {

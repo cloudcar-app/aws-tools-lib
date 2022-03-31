@@ -13,7 +13,7 @@ const s3Client = process.env.LOCAL
 
 export const uploadItem = async (
   params: S3.PutObjectRequest,
-): Promise<Object> => {
+): Promise<S3.ManagedUpload.SendData> => {
   try {
     const { Bucket, Body } = params;
     if (Bucket === undefined) {

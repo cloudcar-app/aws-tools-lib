@@ -14,7 +14,12 @@ import generateConditionExpression from './utils/generate-condition-expression';
 export const listItems = async (
   params: ScanDynamoParams,
 ): Promise<Object[]> => {
-  const { TableName, Attributes, RequiredAttributes } = params;
+  const {
+    TableName,
+    Attributes,
+    RequiredAttributes,
+    NestedAttributes,
+  } = params;
 
   if (TableName === undefined) {
     throw new CloudcarError({
@@ -73,6 +78,18 @@ export const listItems = async (
       ValidOperators.and,
     );
     filterExpression = requiredAttributesExpression;
+  } else if (
+    _.isEmpty(Attributes) &&
+    !RequiredAttributes &&
+    NestedAttributes &&
+    !_.isEmpty(NestedAttributes)
+  ) {
+    filterExpression = {
+      FilterExpression: NestedAttributes.FilterExpression,
+      ExpressionAttributeValues: {
+        ...NestedAttributes.ExpressionAttributeValues,
+      },
+    };
   }
 
   const parsedParams = {

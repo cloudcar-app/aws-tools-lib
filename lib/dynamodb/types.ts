@@ -70,6 +70,7 @@ interface ScanDynamoParams {
   TableName?: string;
   Attributes: object;
   RequiredAttributes?: object;
+  NestedAttributes?: NestedConditionExpressionParams;
 }
 
 interface ItemParams {
@@ -94,6 +95,11 @@ interface ConditionExpressionParams {
   FilterExpression?: string;
   ExpressionAttributeNames?: {};
   ExpressionAttributeValues?: {};
+}
+
+interface NestedConditionExpressionParams {
+  FilterExpression: string;
+  ExpressionAttributeValues: {};
 }
 
 export enum ComparisonOperators {

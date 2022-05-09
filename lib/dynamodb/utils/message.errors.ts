@@ -62,6 +62,14 @@ const MessageError = {
       conditionExpression: 'undefined condition expression',
     },
   },
+  deleteItems: {
+    name: 'DATABASE_SERVICE_DELETE_ITEMS_ERROR',
+    messages: {
+      tableName: 'undefined table name',
+      delete: 'invalid transaction method',
+      conditionExpression: 'undefined condition expression',
+    },
+  },
   listItems: {
     name: 'DATABASE_SERVICE_LIST_ERROR',
     messages: {

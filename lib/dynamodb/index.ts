@@ -13,3 +13,4 @@ export { paginateScan } from './paginateScan';
 export { default as generateScanExpression } from './utils/generate-scan-expression';
 export { statement } from './statment';
 export { batchGetItems } from './batchGetItems';
+export { deleteItems } from './deleteItems';

@@ -3,7 +3,9 @@ import MessageError from './utils/message.errors';
 import { SendTemplatedEmailSESparams } from './types';
 import CloudcarError from '../errors/index';
 
-export const sendEmail = async (params: SendTemplatedEmailSESparams) => {
+export const sendTemplatedEmail = async (
+  params: SendTemplatedEmailSESparams,
+) => {
   const { receiver, from, template, templateData } = params;
 
   if (receiver === undefined) {

@@ -71,6 +71,7 @@ export const listItems = async (
       ValidOperators.contains,
       ValidOperators.or,
     );
+    filterExpression = optionalAttributesExpression;
   } else if (RequiredAttributes && !_.isEmpty(RequiredAttributes)) {
     requiredAttributesExpression = generateScanExpression(
       RequiredAttributes,

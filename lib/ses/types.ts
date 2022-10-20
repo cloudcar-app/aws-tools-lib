@@ -7,6 +7,13 @@ interface SendEmailSESparams {
   templateData?: object;
 }
 
+interface SendTemplatedEmailSESparams {
+  from: string;
+  receiver: string[];
+  template: string;
+  templateData: object;
+}
+
 interface SendRawEmailSESparams {
   from?: string;
   receiver: string;
@@ -17,4 +24,8 @@ interface SendRawEmailSESparams {
   doc: Buffer;
   filename: string;
 }
-export { SendEmailSESparams, SendRawEmailSESparams };
+export {
+  SendEmailSESparams,
+  SendRawEmailSESparams,
+  SendTemplatedEmailSESparams,
+};

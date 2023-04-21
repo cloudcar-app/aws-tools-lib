@@ -2,6 +2,7 @@ import { cognitoClient } from './utils/cognitoClient';
 import { UsernameParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
+import { AdminDeleteUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 
 /**
  * This method is to delete an account. The user will not be able to
@@ -21,6 +22,7 @@ export const deleteUser = async (params: UsernameParams) => {
       name: MessageError.deleteUser.name,
     });
   }
-  await cognitoClient.adminDeleteUser(params).promise();
+  const command = new AdminDeleteUserCommand(params);
+  await cognitoClient.send(command)
   return { message: 'user was delete successfully' };
 };

@@ -8,7 +8,7 @@ export const emptyTable = async (
     TableName: tableName,
     ProjectionExpression: `${attributesToGet.toString()}`,
   };
-  const result = await documentClient.scan(params).promise();
+  const result = await documentClient.scan(params);
   result.Items?.forEach(async (item) => {
     try {
       await documentClient
@@ -16,7 +16,6 @@ export const emptyTable = async (
           TableName: tableName,
           Key: item,
         })
-        .promise();
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

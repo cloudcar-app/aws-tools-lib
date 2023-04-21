@@ -1,16 +1,16 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable max-len */
 import { DateTime } from 'luxon';
-import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { BatchWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
+import { BatchWriteItemOutput, WriteRequest } from '@aws-sdk/client-dynamodb';
 
 /**
  * returns true if the batch write has any unprocessed element. otherwise it returns false
  */
-const areUnprocessedItems = (result: DynamoDB.BatchWriteItemOutput) => {
+const areUnprocessedItems = (result: BatchWriteItemOutput) => {
   if (
     result.UnprocessedItems &&
     Object.keys(result.UnprocessedItems).length > 0
@@ -25,7 +25,7 @@ const areUnprocessedItems = (result: DynamoDB.BatchWriteItemOutput) => {
  */
 const batchWrite = async (
   tablename: string,
-  batchToWrite: DynamoDB.WriteRequest[],
+  batchToWrite: WriteRequest[],
 ) => {
   const result = await documentClient
     .batchWrite({
@@ -33,7 +33,6 @@ const batchWrite = async (
         [tablename]: batchToWrite,
       },
     })
-    .promise();
   if (areUnprocessedItems(result) && result.UnprocessedItems !== undefined) {
     return result.UnprocessedItems[tablename].map(
       (request) =>
@@ -69,8 +68,8 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
     });
   }
 
-  const unprocessedItems: DynamoDB.WriteRequest[] = [];
-  const currentBatchToWrite: DynamoDB.WriteRequest[] = [];
+  const unprocessedItems: WriteRequest[] = [];
+  const currentBatchToWrite: WriteRequest[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const itemToWrite of itemsToWrite) {
     const item = {
@@ -82,7 +81,7 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
       },
     };
 
-    currentBatchToWrite.push(item as DynamoDB.WriteRequest);
+    currentBatchToWrite.push(item as WriteRequest);
 
     if (currentBatchToWrite.length % 25 === 0) {
       const result = await batchWrite(tableName, currentBatchToWrite);

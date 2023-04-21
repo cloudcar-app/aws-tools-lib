@@ -1,16 +1,11 @@
 /* eslint-disable no-await-in-loop */
-import { DynamoDB, Response } from 'aws-sdk';
 import { TransactionWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import generateUpdateQuery from './utils/generate-update-query';
+import { TransactWriteItem, TransactWriteItemsInput } from '@aws-sdk/client-dynamodb';
 
-const addErrorToResponse = <D, E>(response: Response<D, E>) => {
-  const cancellationReasons = JSON.parse(response.httpResponse.body.toString())
-    .CancellationReasons;
-  response.error[cancellationReasons] = cancellationReasons;
-};
 
 export const updateItems = async (params: TransactionWriteDynamoParams) => {
   const { TransactItems, TableName, ConditionExpression } = params;
@@ -31,10 +26,11 @@ export const updateItems = async (params: TransactionWriteDynamoParams) => {
     }
   });
 
-  const currentBatchToUpdate: DynamoDB.TransactWriteItemsInput = {
+  const currentBatchToUpdate: TransactWriteItemsInput = {
     TransactItems: [],
   };
 
+  if(currentBatchToUpdate.TransactItems) {
   // eslint-disable-next-line no-restricted-syntax
   for (const transactItem of TransactItems) {
     const itemToUpdate = { ...transactItem };
@@ -57,28 +53,23 @@ export const updateItems = async (params: TransactionWriteDynamoParams) => {
     }
 
     currentBatchToUpdate.TransactItems.push(
-      itemToUpdate as DynamoDB.TransactWriteItem,
+      itemToUpdate as TransactWriteItem,
     );
 
     if (currentBatchToUpdate.TransactItems.length % 25 === 0) {
-      const request = documentClient.transactWrite(currentBatchToUpdate);
-      request.on('extractError', (response) => {
-        if (response.error) {
-          addErrorToResponse(response);
-        }
-      });
-      await request.promise();
+      const request =await documentClient.transactWrite(currentBatchToUpdate);
+      if(request.$metadata.httpStatusCode !== 200) {
+        throw new Error("Error updating items");
+      }
       currentBatchToUpdate.TransactItems.length = 0;
     }
   }
 
   if (currentBatchToUpdate.TransactItems.length > 0) {
-    const request = documentClient.transactWrite(currentBatchToUpdate);
-    request.on('extractError', (response) => {
-      if (response.error) {
-        addErrorToResponse(response);
-      }
-    });
-    await request.promise();
+    const request = await documentClient.transactWrite(currentBatchToUpdate);
+    if(request.$metadata.httpStatusCode !== 200) {
+      throw new Error("Error updating items");
+    }
   }
+}
 };

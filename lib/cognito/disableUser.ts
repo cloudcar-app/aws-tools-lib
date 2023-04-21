@@ -2,6 +2,7 @@ import { cognitoClient } from './utils/cognitoClient';
 import { UsernameParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
+import { AdminDisableUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 
 /**
  * This method is to disable the account. The user will not be able to
@@ -22,6 +23,7 @@ export const disableUser = async (params: UsernameParams) => {
       name: MessageError.disableUser.name,
     });
   }
-  await cognitoClient.adminDisableUser(params).promise();
+  const command = new AdminDisableUserCommand(params);
+  await cognitoClient.send(command)
   return { message: 'user was disable successfully' };
 };

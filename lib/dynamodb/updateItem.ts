@@ -1,10 +1,10 @@
 /* eslint-disable import/prefer-default-export */
-import { DynamoDB } from 'aws-sdk';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { UpdateDynamoParams } from './types';
 import generateUpdateQuery from './utils/generate-update-query';
 import { documentClient } from './utils/dynamoClient';
+import { UpdateItemInput } from '@aws-sdk/client-dynamodb';
 
 export const updateItem = async (
   params: UpdateDynamoParams,
@@ -36,8 +36,7 @@ export const updateItem = async (
   };
 
   const { Attributes } = await documentClient
-    .update(parsedParams as DynamoDB.UpdateItemInput)
-    .promise();
+    .update(parsedParams as UpdateItemInput)
 
   if (!Attributes) {
     throw new CloudcarError({

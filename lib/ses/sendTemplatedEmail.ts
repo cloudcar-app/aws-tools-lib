@@ -31,6 +31,6 @@ export const sendTemplatedEmail = async (
     Source: from,
   };
 
-  const result = await ses.sendTemplatedEmail(mailParams).promise();
+  const result = await ses.sendTemplatedEmail(mailParams);
   return result;
 };

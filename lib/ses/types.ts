@@ -17,7 +17,7 @@ interface SendTemplatedEmailSESparams {
 interface SendRawEmailSESparams {
   from?: string;
   receiver: string;
-  ccAdresses: any;
+  ccAddresses: any;
   subject: string;
   text?: string;
   htmlTemplate?: string;

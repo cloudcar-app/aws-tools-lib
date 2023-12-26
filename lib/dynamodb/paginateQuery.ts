@@ -1,4 +1,4 @@
-import { DynamoDB } from 'aws-sdk';
+import { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
 
 import { documentClient } from './utils/dynamoClient';
 
@@ -7,12 +7,12 @@ export const paginateQuery = async <T>({
   pageSize,
   acc = [],
 }: {
-  params: DynamoDB.DocumentClient.QueryInput;
+  params: QueryCommandInput;
   pageSize: number;
   acc?: T[];
 }): Promise<{ page: T[]; hasNextPage: boolean }> => {
   const remaining = pageSize - acc.length;
-  const result = await documentClient.query(params).promise();
+  const result = await documentClient.query(params);
   const newItems = result.Items || [];
   const newAcc = [...acc, ...(newItems.slice(0, remaining) as T[])];
 

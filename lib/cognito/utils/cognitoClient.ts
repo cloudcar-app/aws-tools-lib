@@ -1,7 +1,7 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { CognitoIdentityProvider } from '@aws-sdk/client-cognito-identity-provider';
 
 export const cognitoClient = process.env.LOCAL
-  ? new CognitoIdentityServiceProvider()
-  : new CognitoIdentityServiceProvider({
+  ? new CognitoIdentityProvider()
+  : new CognitoIdentityProvider({
       region: process.env.REGION || 'us-east-1',
     });

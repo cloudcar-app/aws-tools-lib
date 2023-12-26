@@ -1,4 +1,5 @@
-import { DynamoDB } from 'aws-sdk';
+import { QueryCommandOutput } from '@aws-sdk/lib-dynamodb';
+import { QueryCommandInput } from '@aws-sdk/client-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { QueryDynamoParams } from './types';
@@ -6,7 +7,7 @@ import { documentClient } from './utils/dynamoClient';
 
 export const queryItems = async (
   params: QueryDynamoParams,
-): Promise<DynamoDB.DocumentClient.QueryOutput> => {
+): Promise<QueryCommandOutput> => {
   const { TableName } = params;
 
   if (TableName === undefined) {
@@ -16,9 +17,7 @@ export const queryItems = async (
     });
   }
 
-  const result = await documentClient
-    .query(params as DynamoDB.QueryInput)
-    .promise();
+  const result = await documentClient.query(params as QueryCommandInput);
 
   return result;
 };

@@ -1,4 +1,4 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { AdminInitiateAuthCommandInput } from '@aws-sdk/client-cognito-identity-provider';
 import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
@@ -33,7 +33,7 @@ export const authenticateWithPassword = async (authParams: AuthParams) => {
     });
   }
 
-  const authData: CognitoIdentityServiceProvider.Types.AdminInitiateAuthRequest = {
+  const authData: AdminInitiateAuthCommandInput = {
     AuthFlow: 'ADMIN_USER_PASSWORD_AUTH',
     AuthParameters: {
       USERNAME: username,
@@ -43,7 +43,7 @@ export const authenticateWithPassword = async (authParams: AuthParams) => {
     UserPoolId: userPoolId as string,
   };
 
-  const response = await cognitoClient.adminInitiateAuth(authData).promise();
+  const response = await cognitoClient.adminInitiateAuth(authData);
 
   if (response.AuthenticationResult) {
     return response.AuthenticationResult;

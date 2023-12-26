@@ -17,6 +17,6 @@ export const updateUser = async (params: UpdateUserParams) => {
       name: MessageError.updateUser.name,
     });
   }
-  const result = await cognitoClient.updateUserAttributes(params).promise();
+  const result = await cognitoClient.updateUserAttributes(params);
   return result;
 };

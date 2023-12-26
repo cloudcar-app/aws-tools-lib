@@ -1,3 +1,5 @@
+import { AttributeValue } from '@aws-sdk/client-dynamodb';
+
 /* eslint-disable max-len */
 interface QueryDynamoParams {
   TableName?: string;
@@ -28,7 +30,7 @@ interface BatchGetDynamoParams {
    * {attributeId: 1}
    * ]
    */
-  keys: { [key: string]: string | number | boolean | null }[];
+  keys: { [key: string]: AttributeValue }[];
   /**
    * In case of table with hash and range primary key
    */

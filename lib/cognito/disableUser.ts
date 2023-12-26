@@ -22,6 +22,6 @@ export const disableUser = async (params: UsernameParams) => {
       name: MessageError.disableUser.name,
     });
   }
-  await cognitoClient.adminDisableUser(params).promise();
+  await cognitoClient.adminDisableUser(params);
   return { message: 'user was disable successfully' };
 };

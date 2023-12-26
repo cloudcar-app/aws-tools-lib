@@ -13,7 +13,7 @@ export const getUser = async (params: GetUserParams) => {
     });
   }
 
-  const result = await cognitoClient.getUser({ AccessToken }).promise();
+  const result = await cognitoClient.getUser({ AccessToken });
   const user = destructureAttributesFromCognitoUser(
     attributesToGet,
     result.UserAttributes,

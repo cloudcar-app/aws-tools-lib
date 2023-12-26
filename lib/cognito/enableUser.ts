@@ -21,6 +21,6 @@ export const enableUser = async (params: UsernameParams) => {
       name: MessageError.enableUser.name,
     });
   }
-  await cognitoClient.adminEnableUser(params).promise();
+  await cognitoClient.adminEnableUser(params);
   return { message: 'user was enable successfully' };
 };

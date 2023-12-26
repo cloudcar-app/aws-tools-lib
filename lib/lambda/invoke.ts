@@ -1,4 +1,4 @@
-import { Lambda } from 'aws-sdk';
+import { Lambda } from '@aws-sdk/client-lambda';
 import { InvokeParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './message.errors';
@@ -32,5 +32,5 @@ export const invokeLambda = (params: InvokeParams) => {
     Payload,
   };
 
-  lambda.invoke(lambdaParams).promise();
+  lambda.invoke(lambdaParams);
 };

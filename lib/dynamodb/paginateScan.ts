@@ -1,4 +1,4 @@
-import { DynamoDB } from 'aws-sdk';
+import { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 
 import { documentClient } from './utils/dynamoClient';
 
@@ -7,13 +7,13 @@ export const paginateScan = async <T>({
   pageSize,
   acc = [],
 }: {
-  params: DynamoDB.DocumentClient.ScanInput;
+  params: ScanCommandInput;
   pageSize: number;
   acc?: T[];
 }): Promise<{ page: T[]; hasNextPage: boolean }> => {
   const remaining = pageSize - acc.length;
 
-  const result = await documentClient.scan(params).promise();
+  const result = await documentClient.scan(params);
 
   const newItems = result.Items || [];
 

@@ -1,7 +1,10 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable max-len */
 import { DateTime } from 'luxon';
-import { DynamoDB } from 'aws-sdk';
+import {
+  BatchWriteItemCommandOutput,
+  WriteRequest,
+} from '@aws-sdk/client-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { BatchWriteDynamoParams } from './types';
@@ -10,7 +13,7 @@ import { documentClient } from './utils/dynamoClient';
 /**
  * returns true if the batch write has any unprocessed element. otherwise it returns false
  */
-const areUnprocessedItems = (result: DynamoDB.BatchWriteItemOutput) => {
+const areUnprocessedItems = (result: BatchWriteItemCommandOutput) => {
   if (
     result.UnprocessedItems &&
     Object.keys(result.UnprocessedItems).length > 0
@@ -23,17 +26,12 @@ const areUnprocessedItems = (result: DynamoDB.BatchWriteItemOutput) => {
 /**
  * writes a batch of item to dynamo. The function returns a list of items that were not processed by the batch write, otherwise it retuns an empty list.
  */
-const batchWrite = async (
-  tablename: string,
-  batchToWrite: DynamoDB.WriteRequest[],
-) => {
-  const result = await documentClient
-    .batchWrite({
-      RequestItems: {
-        [tablename]: batchToWrite,
-      },
-    })
-    .promise();
+const batchWrite = async (tablename: string, batchToWrite: WriteRequest[]) => {
+  const result = await documentClient.batchWrite({
+    RequestItems: {
+      [tablename]: batchToWrite,
+    },
+  });
   if (areUnprocessedItems(result) && result.UnprocessedItems !== undefined) {
     return result.UnprocessedItems[tablename].map(
       (request) =>
@@ -69,8 +67,8 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
     });
   }
 
-  const unprocessedItems: DynamoDB.WriteRequest[] = [];
-  const currentBatchToWrite: DynamoDB.WriteRequest[] = [];
+  const unprocessedItems: WriteRequest[] = [];
+  const currentBatchToWrite: WriteRequest[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const itemToWrite of itemsToWrite) {
     const item = {
@@ -82,7 +80,7 @@ export const createItems = async (params: BatchWriteDynamoParams) => {
       },
     };
 
-    currentBatchToWrite.push(item as DynamoDB.WriteRequest);
+    currentBatchToWrite.push(item as WriteRequest);
 
     if (currentBatchToWrite.length % 25 === 0) {
       const result = await batchWrite(tableName, currentBatchToWrite);

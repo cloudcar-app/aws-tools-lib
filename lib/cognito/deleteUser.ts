@@ -21,6 +21,6 @@ export const deleteUser = async (params: UsernameParams) => {
       name: MessageError.deleteUser.name,
     });
   }
-  await cognitoClient.adminDeleteUser(params).promise();
+  await cognitoClient.adminDeleteUser(params);
   return { message: 'user was delete successfully' };
 };

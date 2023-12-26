@@ -32,6 +32,6 @@ export const confirmUserEmail = async (params: ConfirmUserEmail) => {
     ConfirmationCode,
   };
 
-  const result = await cognitoClient.confirmSignUp(signgUpParams).promise();
+  const result = await cognitoClient.confirmSignUp(signgUpParams);
   return result;
 };

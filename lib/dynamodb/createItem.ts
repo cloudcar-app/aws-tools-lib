@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { DynamoDB } from 'aws-sdk';
+import { PutItemCommandInput } from '@aws-sdk/client-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { PutDynamoParams } from './types';
@@ -29,7 +29,7 @@ export const createItem = async (params: PutDynamoParams): Promise<Object> => {
     ...Item,
   };
 
-  await documentClient.put(params as DynamoDB.PutItemInput).promise();
+  await documentClient.put(params as PutItemCommandInput);
 
   return params.Item;
 };

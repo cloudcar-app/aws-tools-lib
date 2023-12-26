@@ -1,19 +1,28 @@
-import { S3 } from 'aws-sdk';
+import {
+  PutObjectCommand,
+  PutObjectCommandInput,
+  PutObjectCommandOutput,
+  S3,
+} from '@aws-sdk/client-s3';
 import CloudcarError from '../errors/index';
 import MessageError from './message.errors';
 
 const s3Client = process.env.LOCAL
   ? new S3({
-      s3ForcePathStyle: true,
-      accessKeyId: 'S3RVER', // This specific key is required when working offline
-      secretAccessKey: 'S3RVER',
+      forcePathStyle: true,
+      credentials: {
+        accessKeyId: 'S3RVER', // This specific key is required when working offline
+        secretAccessKey: 'S3RVER',
+      },
       endpoint: 'http://localhost:4569',
     })
-  : new S3({ region: process.env.REGION || 'us-east-1' });
+  : new S3({
+      region: process.env.REGION || 'us-east-1',
+    });
 
 export const uploadItem = async (
-  params: S3.PutObjectRequest,
-): Promise<S3.ManagedUpload.SendData> => {
+  params: PutObjectCommandInput,
+): Promise<PutObjectCommandOutput> => {
   try {
     const { Bucket, Body } = params;
     if (Bucket === undefined) {
@@ -28,9 +37,11 @@ export const uploadItem = async (
       });
     }
 
-    const result = await s3Client.upload(params).promise();
+    const uploadCommand = new PutObjectCommand(params);
 
-    if (result.ETag === undefined || result.Location === undefined) {
+    const result = await s3Client.send(uploadCommand);
+
+    if (result.ETag === undefined) {
       throw new CloudcarError({
         message: MessageError.uploadItem.messages.notFoundItem,
         name: MessageError.uploadItem.name,

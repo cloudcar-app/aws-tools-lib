@@ -16,7 +16,7 @@ export const listUsers = async (
     });
   }
 
-  const result = await cognitoClient.listUsers(params).promise();
+  const result = await cognitoClient.listUsers(params);
 
   const usersList: CognitoUser[] = [];
 

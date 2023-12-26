@@ -1,15 +1,12 @@
 /* eslint-disable no-await-in-loop */
-import { DynamoDB, Response } from 'aws-sdk';
+import {
+  TransactWriteItem,
+  TransactWriteItemsCommandInput,
+} from '@aws-sdk/client-dynamodb';
 import { TransactionWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
-
-const addErrorToResponse = <D, E>(response: Response<D, E>) => {
-  const cancellationReasons = JSON.parse(response.httpResponse.body.toString())
-    .CancellationReasons;
-  response.error[cancellationReasons] = cancellationReasons;
-};
 
 export const deleteItems = async (params: TransactionWriteDynamoParams) => {
   const { TransactItems, TableName, ConditionExpression } = params;
@@ -30,7 +27,7 @@ export const deleteItems = async (params: TransactionWriteDynamoParams) => {
     }
   });
 
-  const currentBatchToDelete: DynamoDB.TransactWriteItemsInput = {
+  const currentBatchToDelete: TransactWriteItemsCommandInput = {
     TransactItems: [],
   };
 
@@ -46,29 +43,21 @@ export const deleteItems = async (params: TransactionWriteDynamoParams) => {
       itemToDelete.Delete.ConditionExpression = ConditionExpression;
     }
 
-    currentBatchToDelete.TransactItems.push(
-      itemToDelete as DynamoDB.TransactWriteItem,
-    );
+    currentBatchToDelete.TransactItems?.push(itemToDelete as TransactWriteItem);
 
-    if (currentBatchToDelete.TransactItems.length % 25 === 0) {
-      const request = documentClient.transactWrite(currentBatchToDelete);
-      request.on('extractError', (response) => {
-        if (response.error) {
-          addErrorToResponse(response);
-        }
-      });
-      await request.promise();
+    if (
+      currentBatchToDelete.TransactItems &&
+      currentBatchToDelete.TransactItems.length % 25 === 0
+    ) {
+      await documentClient.transactWrite(currentBatchToDelete);
       currentBatchToDelete.TransactItems.length = 0;
     }
   }
 
-  if (currentBatchToDelete.TransactItems.length > 0) {
-    const request = documentClient.transactWrite(currentBatchToDelete);
-    request.on('extractError', (response) => {
-      if (response.error) {
-        addErrorToResponse(response);
-      }
-    });
-    await request.promise();
+  if (
+    currentBatchToDelete.TransactItems &&
+    currentBatchToDelete.TransactItems.length > 0
+  ) {
+    await documentClient.transactWrite(currentBatchToDelete);
   }
 };

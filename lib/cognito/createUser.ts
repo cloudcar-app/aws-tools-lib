@@ -1,4 +1,4 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { SignUpCommandInput } from '@aws-sdk/client-cognito-identity-provider';
 import { v1 as uuidV1 } from 'uuid';
 import { cognitoClient } from './utils/cognitoClient';
 import { CreateCognitoUser } from './types';
@@ -38,7 +38,7 @@ export const createUser = async (params: CreateCognitoUser) => {
     });
   });
 
-  const data: CognitoIdentityServiceProvider.Types.SignUpRequest = {
+  const data: SignUpCommandInput = {
     Password: user.password ? user.password : (uuidV1() as string),
     Username: user.username ? user.username : user.name,
     UserAttributes: userAttributes,
@@ -48,6 +48,6 @@ export const createUser = async (params: CreateCognitoUser) => {
     },
   };
 
-  const result = await cognitoClient.signUp(data).promise();
+  const result = await cognitoClient.signUp(data);
   return result;
 };

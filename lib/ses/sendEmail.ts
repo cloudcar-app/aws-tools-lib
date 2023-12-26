@@ -60,6 +60,6 @@ export const sendEmail = async (params: SendEmailSESparams) => {
     Source: from,
   };
 
-  const result = await ses.sendEmail(mailParams).promise();
+  const result = await ses.sendEmail(mailParams);
   return result;
 };

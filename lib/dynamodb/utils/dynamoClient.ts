@@ -6,4 +6,8 @@ export const dynamo =
     ? new DynamoDB({ region: 'localhost', endpoint: 'http://localhost:8000' })
     : new DynamoDB({ region: process.env.REGION || 'us-east-1' });
 
-export const documentClient = DynamoDBDocument.from(dynamo);
+export const documentClient = DynamoDBDocument.from(dynamo, {
+  marshallOptions: {
+    removeUndefinedValues: true,
+  },
+});

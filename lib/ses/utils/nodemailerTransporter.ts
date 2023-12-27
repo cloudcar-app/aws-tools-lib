@@ -1,12 +1,10 @@
 import { createTransport } from 'nodemailer';
 import { ses } from './sesClient';
-
-ses.createConfigurationSet({
-  ConfigurationSet: {
-    Name: 'templateFailure',
-  },
-});
+import * as aws from '@aws-sdk/client-ses';
 
 export const nodemailerTransporter = createTransport({
-  SES: ses,
+  SES: {
+    ses,
+    aws,
+  },
 });

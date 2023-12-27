@@ -27,7 +27,7 @@ export const downloadItem = async (
     });
   }
 
-  const result = await s3Client.getObject(params as GetObjectRequest)
+  const result = await s3Client.getObject(params as GetObjectRequest);
 
   return result;
 };

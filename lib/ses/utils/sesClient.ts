@@ -1,4 +1,4 @@
-import { SES } from "@aws-sdk/client-ses";
+import { SES } from '@aws-sdk/client-ses';
 
 export const ses = process.env.LOCAL
   ? new SES({ region: 'us-east-1', endpoint: 'http://localhost:9001' })

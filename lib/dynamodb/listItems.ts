@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import {
@@ -9,7 +10,6 @@ import {
 import generateScanExpression from './utils/generate-scan-expression';
 import { documentClient } from './utils/dynamoClient';
 import generateConditionExpression from './utils/generate-condition-expression';
-import { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 
 export const listItems = async (
   params: ScanDynamoParams,
@@ -98,8 +98,7 @@ export const listItems = async (
     ...filterExpression,
   };
 
-  const result = await documentClient
-    .scan(parsedParams as ScanCommandInput)
+  const result = await documentClient.scan(parsedParams as ScanCommandInput);
 
   if (result.Items !== undefined) {
     return result.Items;

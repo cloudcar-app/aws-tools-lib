@@ -1,8 +1,11 @@
+import {
+  AdminInitiateAuthCommand,
+  AdminInitiateAuthRequest,
+} from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
-import { AdminInitiateAuthCommand, AdminInitiateAuthRequest } from '@aws-sdk/client-cognito-identity-provider';
 
 export const refreshTokens = async (authParams: AuthParams) => {
   const {
@@ -42,7 +45,7 @@ export const refreshTokens = async (authParams: AuthParams) => {
     UserPoolId: userPoolId,
   };
   const command = new AdminInitiateAuthCommand(authData);
-  const response = await cognitoClient.send(command)
+  const response = await cognitoClient.send(command);
 
   if (response.AuthenticationResult) {
     return response.AuthenticationResult;

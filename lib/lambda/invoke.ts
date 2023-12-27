@@ -1,7 +1,7 @@
+import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
 import { InvokeParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './message.errors';
-import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
 
 export const invokeLambda = async (params: InvokeParams) => {
   const { FunctionName, InvocationType, Payload } = params;
@@ -31,12 +31,7 @@ export const invokeLambda = async (params: InvokeParams) => {
     FunctionName,
     Payload,
   };
-  const input = { // InvocationRequest
-    FunctionName,
-    InvocationType,
-    Payload,
-  };
 
   const command = new InvokeCommand(lambdaParams);
-  await lambda.send(command)
+  await lambda.send(command);
 };

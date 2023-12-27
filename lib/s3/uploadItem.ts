@@ -1,16 +1,14 @@
 import { PutObjectRequest } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 import CloudcarError from '../errors/index';
 import MessageError from './message.errors';
-import { Upload } from '@aws-sdk/lib-storage';
 import { s3Client } from './utils/s3client';
 /**
  * This method is to upload an item to s3. The user will be able to
  * download the item.
  */
 
-export const uploadItem = async (
-  params: PutObjectRequest,
-): Promise<object> => {
+export const uploadItem = async (params: PutObjectRequest): Promise<object> => {
   try {
     const { Bucket, Body } = params;
     if (Bucket === undefined) {
@@ -25,7 +23,7 @@ export const uploadItem = async (
       });
     }
 
-    const multipartUpload = new Upload({client:s3Client,params});
+    const multipartUpload = new Upload({ client: s3Client, params });
     const result = await multipartUpload.done();
 
     if (result.$metadata.httpStatusCode !== 200) {

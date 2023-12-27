@@ -1,11 +1,11 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable max-len */
 import { DateTime } from 'luxon';
+import { BatchWriteItemOutput, WriteRequest } from '@aws-sdk/client-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { BatchWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
-import { BatchWriteItemOutput, WriteRequest } from '@aws-sdk/client-dynamodb';
 
 /**
  * returns true if the batch write has any unprocessed element. otherwise it returns false
@@ -23,16 +23,12 @@ const areUnprocessedItems = (result: BatchWriteItemOutput) => {
 /**
  * writes a batch of item to dynamo. The function returns a list of items that were not processed by the batch write, otherwise it retuns an empty list.
  */
-const batchWrite = async (
-  tablename: string,
-  batchToWrite: WriteRequest[],
-) => {
-  const result = await documentClient
-    .batchWrite({
-      RequestItems: {
-        [tablename]: batchToWrite,
-      },
-    })
+const batchWrite = async (tablename: string, batchToWrite: WriteRequest[]) => {
+  const result = await documentClient.batchWrite({
+    RequestItems: {
+      [tablename]: batchToWrite,
+    },
+  });
   if (areUnprocessedItems(result) && result.UnprocessedItems !== undefined) {
     return result.UnprocessedItems[tablename].map(
       (request) =>

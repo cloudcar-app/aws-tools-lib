@@ -1,8 +1,8 @@
+import { AdminUpdateUserAttributesCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { AdminUpdateUserParams } from './types';
-import { AdminUpdateUserAttributesCommand } from '@aws-sdk/client-cognito-identity-provider';
 
 export const adminUpdateUser = async (params: AdminUpdateUserParams) => {
   const { Username, UserPoolId, UserAttributes } = params;

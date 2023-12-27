@@ -1,4 +1,4 @@
-import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
+import { CognitoIdentityProviderClient } from '@aws-sdk/client-cognito-identity-provider';
 
 export const cognitoClient = process.env.LOCAL
   ? new CognitoIdentityProviderClient({})

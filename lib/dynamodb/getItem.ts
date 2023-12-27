@@ -1,9 +1,9 @@
+import { QueryInput } from '@aws-sdk/client-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { QueryDynamoParams } from './types';
 
 import { documentClient } from './utils/dynamoClient';
-import { QueryInput } from '@aws-sdk/client-dynamodb';
 
 export const getItem = async (
   params: QueryDynamoParams,
@@ -21,8 +21,7 @@ export const getItem = async (
     Limit: 1,
   };
 
-  const result = await documentClient
-    .query(params as QueryInput)
+  const result = await documentClient.query(params as QueryInput);
 
   if (result.Items === undefined) {
     throw new CloudcarError({

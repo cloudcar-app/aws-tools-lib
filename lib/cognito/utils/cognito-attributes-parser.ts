@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
 // import { CognitoIdentityServiceProvider } from 'aws-sdk';
 
+import { AttributeType } from '@aws-sdk/client-cognito-identity-provider';
 import CloudcarError from '../../errors/index';
 import MessageError from './message.errors';
 import ErrorTypes from '../../errors/errorTypes';
 import { CognitoUser } from '../types';
-import { AttributeType } from '@aws-sdk/client-cognito-identity-provider';
 
 /**
  * return a parsed attribute name. if the attribute has 'custom' as a prefix it is eliminated, otherwise the attribute itself is returned.
@@ -23,9 +23,7 @@ const parseAttributeName = (attribute: string) => {
 
 export const destructureAttributesFromCognitoUser = (
   attributesToGet: string[],
-  cognitoUserAttributes:
-    | AttributeType[]
-    | undefined,
+  cognitoUserAttributes: AttributeType[] | undefined,
 ) => {
   const user = {} as CognitoUser;
 

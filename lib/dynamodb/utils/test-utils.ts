@@ -11,11 +11,10 @@ export const emptyTable = async (
   const result = await documentClient.scan(params);
   result.Items?.forEach(async (item) => {
     try {
-      await documentClient
-        .delete({
-          TableName: tableName,
-          Key: item,
-        })
+      await documentClient.delete({
+        TableName: tableName,
+        Key: item,
+      });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

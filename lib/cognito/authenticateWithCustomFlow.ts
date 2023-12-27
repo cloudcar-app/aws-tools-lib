@@ -1,8 +1,13 @@
+import {
+  InitiateAuthCommand,
+  InitiateAuthRequest,
+  RespondToAuthChallengeCommand,
+  RespondToAuthChallengeRequest,
+} from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import { AuthParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
-import { InitiateAuthCommand, InitiateAuthRequest, RespondToAuthChallengeCommand, RespondToAuthChallengeRequest } from '@aws-sdk/client-cognito-identity-provider';
 
 export const authenticateWithCustomFlow = async (params: AuthParams) => {
   const { username, Answer, CognitoClientId, flow } = params;
@@ -35,7 +40,7 @@ export const authenticateWithCustomFlow = async (params: AuthParams) => {
     ClientId: CognitoClientId,
   };
   const command = new InitiateAuthCommand(authParams);
-  const response = await cognitoClient.send(command)
+  const response = await cognitoClient.send(command);
   if (response.Session) {
     const responseChallenge: RespondToAuthChallengeRequest = {
       Session: response.Session,
@@ -49,8 +54,8 @@ export const authenticateWithCustomFlow = async (params: AuthParams) => {
         Answer,
       },
     };
-    const command = new RespondToAuthChallengeCommand(responseChallenge);
-    const session = await cognitoClient.send(command)
+    const RespondCommand = new RespondToAuthChallengeCommand(responseChallenge);
+    const session = await cognitoClient.send(RespondCommand);
     if (session.AuthenticationResult === undefined) {
       throw new CloudcarError({
         message: MessageError.createPurchaseIntent.messages.authResult,

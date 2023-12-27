@@ -1,9 +1,9 @@
-import { S3 } from "@aws-sdk/client-s3";
+import { S3 } from '@aws-sdk/client-s3';
 
 export const s3Client = process.env.LOCAL
   ? new S3({
       forcePathStyle: true,
-      credentials:{
+      credentials: {
         accessKeyId: 'S3RVER', // This specific key is required when working offline
         secretAccessKey: 'S3RVER',
       },

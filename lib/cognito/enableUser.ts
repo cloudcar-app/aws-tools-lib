@@ -1,8 +1,8 @@
+import { AdminEnableUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import { UsernameParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
-import { AdminEnableUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 
 /**
  * This method is to enable an account that were disable. The user will be able to
@@ -23,6 +23,6 @@ export const enableUser = async (params: UsernameParams) => {
     });
   }
   const command = new AdminEnableUserCommand(params);
-  await cognitoClient.send(command)
+  await cognitoClient.send(command);
   return { message: 'user was enable successfully' };
 };

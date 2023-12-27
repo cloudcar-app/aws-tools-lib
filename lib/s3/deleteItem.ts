@@ -1,7 +1,7 @@
+import { DeleteObjectRequest } from '@aws-sdk/client-s3';
 import { DeleteS3Params } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './message.errors';
-import { DeleteObjectRequest } from '@aws-sdk/client-s3';
 import { s3Client } from './utils/s3client';
 
 /**
@@ -9,8 +9,8 @@ import { s3Client } from './utils/s3client';
  * @param params
  * @returns
  * @throws CloudcarError
- * 
- **/
+ *
+ * */
 
 export const deleteItem = async (params: DeleteS3Params): Promise<Object> => {
   const { Bucket, Key } = params;
@@ -25,6 +25,6 @@ export const deleteItem = async (params: DeleteS3Params): Promise<Object> => {
       name: MessageError.deleteItem.name,
     });
   }
-  const result = await s3Client.deleteObject(params as DeleteObjectRequest)
+  const result = await s3Client.deleteObject(params as DeleteObjectRequest);
   return result;
 };

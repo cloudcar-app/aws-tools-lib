@@ -1,17 +1,16 @@
-
+import { BatchGetItemOutput } from '@aws-sdk/client-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { BatchGetDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
 import { generateBatchGetItemExpression } from './utils/generate-batch-get-expression';
-import {  BatchGetItemOutput } from '@aws-sdk/client-dynamodb';
 
 /**
  * @description BatchGetItems
  * @param {BatchGetDynamoParams} params
  * @returns {Promise<BatchGetItemOutput>}
  * @throws CloudcarError
- **/
+ * */
 
 export const batchGetItems = async (
   params: BatchGetDynamoParams,
@@ -31,10 +30,9 @@ export const batchGetItems = async (
     });
   }
 
-  const result = await documentClient
-    .batchGet(
-      generateBatchGetItemExpression(params),
-    );
+  const result = await documentClient.batchGet(
+    generateBatchGetItemExpression(params),
+  );
 
   return result;
 };

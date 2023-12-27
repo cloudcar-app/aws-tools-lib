@@ -25,8 +25,8 @@ export const createItem = async (params: PutDynamoParams): Promise<Object> => {
 
   // eslint-disable-next-line no-param-reassign
   params.Item = {
-    ...Item,
     createdAt: DateTime.local().toString(),
+    ...Item,
   };
 
   await documentClient.put(params as PutCommandInput);

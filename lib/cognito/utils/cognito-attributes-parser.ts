@@ -1,6 +1,4 @@
 /* eslint-disable max-len */
-// import { CognitoIdentityServiceProvider } from 'aws-sdk';
-
 import { AttributeType } from '@aws-sdk/client-cognito-identity-provider';
 import CloudcarError from '../../errors/index';
 import MessageError from './message.errors';

@@ -1,11 +1,11 @@
-import { Lambda } from 'aws-sdk';
+import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
 import { InvokeParams } from './types';
 import CloudcarError from '../errors/index';
 import MessageError from './message.errors';
 
-export const invokeLambda = (params: InvokeParams) => {
+export const invokeLambda = async (params: InvokeParams) => {
   const { FunctionName, InvocationType, Payload } = params;
-  const lambda = new Lambda();
+  const lambda = new LambdaClient({});
 
   if (!FunctionName) {
     throw new CloudcarError({
@@ -32,5 +32,6 @@ export const invokeLambda = (params: InvokeParams) => {
     Payload,
   };
 
-  lambda.invoke(lambdaParams).promise();
+  const command = new InvokeCommand(lambdaParams);
+  await lambda.send(command);
 };

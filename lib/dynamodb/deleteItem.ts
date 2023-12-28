@@ -1,4 +1,4 @@
-import { DynamoDB } from 'aws-sdk';
+import { DeleteCommandInput } from '@aws-sdk/lib-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { DeleteDynamoParams } from './types';
@@ -23,9 +23,7 @@ export const deleteItem = async (
     });
   }
 
-  const result = await documentClient
-    .delete(params as DynamoDB.DeleteItemInput)
-    .promise();
+  const result = await documentClient.delete(params as DeleteCommandInput);
 
   return result;
 };

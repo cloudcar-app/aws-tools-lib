@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { AttributeType } from '@aws-sdk/client-cognito-identity-provider';
 import CloudcarError from '../../errors/index';
 import MessageError from './message.errors';
 import ErrorTypes from '../../errors/errorTypes';
@@ -18,11 +18,10 @@ const parseAttributeName = (attribute: string) => {
 /**
  * return a instance of an user. This method receives a list of the names of the attributes to be destructured from the cognito user, together with the list of all the attributes of the cognito user result. The method internally calls 'parseAttributeName' to assign the cognito attributes without the custom prefix.
  */
+
 export const destructureAttributesFromCognitoUser = (
   attributesToGet: string[],
-  cognitoUserAttributes:
-    | CognitoIdentityServiceProvider.AttributeListType
-    | undefined,
+  cognitoUserAttributes: AttributeType[] | undefined,
 ) => {
   const user = {} as CognitoUser;
 
@@ -35,7 +34,7 @@ export const destructureAttributesFromCognitoUser = (
   }
 
   cognitoUserAttributes.forEach((attribute) => {
-    if (attributesToGet.includes(attribute.Name)) {
+    if (attribute.Name && attributesToGet.includes(attribute.Name)) {
       const attributeName = parseAttributeName(attribute.Name);
       user[attributeName] = attribute.Value;
     }

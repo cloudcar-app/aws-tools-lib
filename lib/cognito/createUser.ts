@@ -1,5 +1,8 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { v1 as uuidV1 } from 'uuid';
+import {
+  SignUpCommand,
+  SignUpRequest,
+} from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import { CreateCognitoUser } from './types';
 import CloudcarError from '../errors/index';
@@ -38,7 +41,7 @@ export const createUser = async (params: CreateCognitoUser) => {
     });
   });
 
-  const data: CognitoIdentityServiceProvider.Types.SignUpRequest = {
+  const data: SignUpRequest = {
     Password: user.password ? user.password : (uuidV1() as string),
     Username: user.username ? user.username : user.name,
     UserAttributes: userAttributes,
@@ -47,7 +50,7 @@ export const createUser = async (params: CreateCognitoUser) => {
       ...metadata,
     },
   };
-
-  const result = await cognitoClient.signUp(data).promise();
+  const command = new SignUpCommand(data);
+  const result = await cognitoClient.send(command);
   return result;
 };

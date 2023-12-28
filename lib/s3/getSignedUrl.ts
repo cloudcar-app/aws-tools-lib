@@ -1,19 +1,18 @@
-import { S3 } from 'aws-sdk';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl as getSignedUrlS3 } from '@aws-sdk/s3-request-presigner';
 import { ParamsPreSignedUrl } from './types';
+import { s3Client } from './utils/s3client';
 
-const s3Client = process.env.LOCAL
-  ? new S3({
-      s3ForcePathStyle: true,
-      accessKeyId: 'S3RVER', // This specific key is required when working offline
-      secretAccessKey: 'S3RVER',
-      endpoint: 'http://localhost:4569',
-    })
-  : new S3({ region: process.env.REGION || 'us-east-1' });
-
+/**
+ * This method is to get a signed url to download an item from s3.
+ * The user will be able to download the item.
+ * @param params
+ * @returns
+ */
 export const getSignedUrl = async (
-  operation: string,
   params: ParamsPreSignedUrl,
 ): Promise<string> => {
-  const signedUrl = await s3Client.getSignedUrlPromise(operation, params);
+  const command = new GetObjectCommand(params);
+  const signedUrl = await getSignedUrlS3(s3Client, command);
   return signedUrl;
 };

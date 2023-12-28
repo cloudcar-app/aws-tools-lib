@@ -1,3 +1,4 @@
+import { ListUsersCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import { ListUsersParams, CognitoUser } from './types';
 import CloudcarError from '../errors/index';
@@ -15,8 +16,8 @@ export const listUsers = async (
       name: MessageError.listUsers.name,
     });
   }
-
-  const result = await cognitoClient.listUsers(params).promise();
+  const commnad = new ListUsersCommand(params);
+  const result = await cognitoClient.send(commnad);
 
   const usersList: CognitoUser[] = [];
 

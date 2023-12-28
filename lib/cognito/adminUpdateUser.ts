@@ -1,3 +1,4 @@
+import { AdminUpdateUserAttributesCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
@@ -23,6 +24,7 @@ export const adminUpdateUser = async (params: AdminUpdateUserParams) => {
       name: MessageError.adminUpdateUser.name,
     });
   }
-  await cognitoClient.adminUpdateUserAttributes(params).promise();
+  const command = new AdminUpdateUserAttributesCommand(params);
+  await cognitoClient.send(command);
   return { message: 'user was updated successfully' };
 };

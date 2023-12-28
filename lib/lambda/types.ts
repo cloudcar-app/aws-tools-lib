@@ -1,5 +1,7 @@
+import { InvocationType } from '@aws-sdk/client-lambda';
+
 export interface InvokeParams {
-  InvocationType: string;
+  InvocationType: InvocationType;
   FunctionName?: string;
-  Payload: string;
+  Payload: Uint8Array;
 }

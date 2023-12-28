@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { DynamoDB } from 'aws-sdk';
+import { ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import {
@@ -98,9 +98,7 @@ export const listItems = async (
     ...filterExpression,
   };
 
-  const result = await documentClient
-    .scan(parsedParams as DynamoDB.ScanInput)
-    .promise();
+  const result = await documentClient.scan(parsedParams as ScanCommandInput);
 
   if (result.Items !== undefined) {
     return result.Items;

@@ -1,19 +1,14 @@
-import { S3 } from 'aws-sdk';
+import { PutObjectRequest } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 import CloudcarError from '../errors/index';
 import MessageError from './message.errors';
+import { s3Client } from './utils/s3client';
+/**
+ * This method is to upload an item to s3. The user will be able to
+ * download the item.
+ */
 
-const s3Client = process.env.LOCAL
-  ? new S3({
-      s3ForcePathStyle: true,
-      accessKeyId: 'S3RVER', // This specific key is required when working offline
-      secretAccessKey: 'S3RVER',
-      endpoint: 'http://localhost:4569',
-    })
-  : new S3({ region: process.env.REGION || 'us-east-1' });
-
-export const uploadItem = async (
-  params: S3.PutObjectRequest,
-): Promise<S3.ManagedUpload.SendData> => {
+export const uploadItem = async (params: PutObjectRequest): Promise<object> => {
   try {
     const { Bucket, Body } = params;
     if (Bucket === undefined) {
@@ -28,9 +23,10 @@ export const uploadItem = async (
       });
     }
 
-    const result = await s3Client.upload(params).promise();
+    const multipartUpload = new Upload({ client: s3Client, params });
+    const result = await multipartUpload.done();
 
-    if (result.ETag === undefined || result.Location === undefined) {
+    if (result.$metadata.httpStatusCode !== 200) {
       throw new CloudcarError({
         message: MessageError.uploadItem.messages.notFoundItem,
         name: MessageError.uploadItem.name,

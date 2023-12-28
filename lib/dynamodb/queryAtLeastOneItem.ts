@@ -1,4 +1,4 @@
-import { DynamoDB } from 'aws-sdk';
+import { QueryInput } from '@aws-sdk/client-dynamodb';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import { QueryDynamoParams } from './types';
@@ -16,9 +16,7 @@ export const queryAtLeastOneItem = async (
     });
   }
 
-  const result = await documentClient
-    .query(params as DynamoDB.QueryInput)
-    .promise();
+  const result = await documentClient.query(params as QueryInput);
 
   if (result.Items === undefined || result.Items.length === 0) {
     throw new CloudcarError({

@@ -1,3 +1,4 @@
+import { ConfirmSignUpCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import { ConfirmUserEmail } from './types';
 import CloudcarError from '../errors/index';
@@ -31,7 +32,7 @@ export const confirmUserEmail = async (params: ConfirmUserEmail) => {
     ClientId,
     ConfirmationCode,
   };
-
-  const result = await cognitoClient.confirmSignUp(signgUpParams).promise();
+  const command = new ConfirmSignUpCommand(signgUpParams);
+  const result = await cognitoClient.send(command);
   return result;
 };

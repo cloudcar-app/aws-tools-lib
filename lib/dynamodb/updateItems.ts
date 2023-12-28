@@ -1,16 +1,13 @@
 /* eslint-disable no-await-in-loop */
-import { DynamoDB, Response } from 'aws-sdk';
+import {
+  TransactWriteItem,
+  TransactWriteItemsInput,
+} from '@aws-sdk/client-dynamodb';
 import { TransactionWriteDynamoParams } from './types';
 import { documentClient } from './utils/dynamoClient';
 import CloudcarError from '../errors/index';
 import MessageError from './utils/message.errors';
 import generateUpdateQuery from './utils/generate-update-query';
-
-const addErrorToResponse = <D, E>(response: Response<D, E>) => {
-  const cancellationReasons = JSON.parse(response.httpResponse.body.toString())
-    .CancellationReasons;
-  response.error[cancellationReasons] = cancellationReasons;
-};
 
 export const updateItems = async (params: TransactionWriteDynamoParams) => {
   const { TransactItems, TableName, ConditionExpression } = params;
@@ -31,54 +28,52 @@ export const updateItems = async (params: TransactionWriteDynamoParams) => {
     }
   });
 
-  const currentBatchToUpdate: DynamoDB.TransactWriteItemsInput = {
+  const currentBatchToUpdate: TransactWriteItemsInput = {
     TransactItems: [],
   };
 
-  // eslint-disable-next-line no-restricted-syntax
-  for (const transactItem of TransactItems) {
-    const itemToUpdate = { ...transactItem };
-    const { item, ...updateParams } = itemToUpdate.Update!;
-    itemToUpdate.Update = {
-      ...updateParams,
-      TableName,
-    };
-
-    if (item) {
-      const expression = generateUpdateQuery(item);
+  if (currentBatchToUpdate.TransactItems) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const transactItem of TransactItems) {
+      const itemToUpdate = { ...transactItem };
+      const { item, ...updateParams } = itemToUpdate.Update!;
       itemToUpdate.Update = {
-        ...itemToUpdate.Update,
-        ...expression,
+        ...updateParams,
+        TableName,
       };
-    }
 
-    if (ConditionExpression) {
-      itemToUpdate.Update.ConditionExpression = ConditionExpression;
-    }
-
-    currentBatchToUpdate.TransactItems.push(
-      itemToUpdate as DynamoDB.TransactWriteItem,
-    );
-
-    if (currentBatchToUpdate.TransactItems.length % 25 === 0) {
-      const request = documentClient.transactWrite(currentBatchToUpdate);
-      request.on('extractError', (response) => {
-        if (response.error) {
-          addErrorToResponse(response);
-        }
-      });
-      await request.promise();
-      currentBatchToUpdate.TransactItems.length = 0;
-    }
-  }
-
-  if (currentBatchToUpdate.TransactItems.length > 0) {
-    const request = documentClient.transactWrite(currentBatchToUpdate);
-    request.on('extractError', (response) => {
-      if (response.error) {
-        addErrorToResponse(response);
+      if (item) {
+        const expression = generateUpdateQuery(item);
+        itemToUpdate.Update = {
+          ...itemToUpdate.Update,
+          ...expression,
+        };
       }
-    });
-    await request.promise();
+
+      if (ConditionExpression) {
+        itemToUpdate.Update.ConditionExpression = ConditionExpression;
+      }
+
+      currentBatchToUpdate.TransactItems.push(
+        itemToUpdate as TransactWriteItem,
+      );
+
+      if (currentBatchToUpdate.TransactItems.length % 25 === 0) {
+        const request = await documentClient.transactWrite(
+          currentBatchToUpdate,
+        );
+        if (request.$metadata.httpStatusCode !== 200) {
+          throw new Error('Error updating items');
+        }
+        currentBatchToUpdate.TransactItems.length = 0;
+      }
+    }
+
+    if (currentBatchToUpdate.TransactItems.length > 0) {
+      const request = await documentClient.transactWrite(currentBatchToUpdate);
+      if (request.$metadata.httpStatusCode !== 200) {
+        throw new Error('Error updating items');
+      }
+    }
   }
 };

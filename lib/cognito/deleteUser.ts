@@ -1,3 +1,4 @@
+import { AdminDeleteUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from './utils/cognitoClient';
 import { UsernameParams } from './types';
 import CloudcarError from '../errors/index';
@@ -21,6 +22,7 @@ export const deleteUser = async (params: UsernameParams) => {
       name: MessageError.deleteUser.name,
     });
   }
-  await cognitoClient.adminDeleteUser(params).promise();
+  const command = new AdminDeleteUserCommand(params);
+  await cognitoClient.send(command);
   return { message: 'user was delete successfully' };
 };
